@@ -10,26 +10,16 @@ class Status extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'id' => 'integer',
     ];
 
-    public function invites(): HasMany
+    public function applies(): HasMany
     {
-        return $this->hasMany(Invite::class);
+        return $this->hasMany(Apply::class);
     }
 }

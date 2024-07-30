@@ -12,11 +12,6 @@ class Post extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'publisher_id',
         'taggable_id',
@@ -25,11 +20,6 @@ class Post extends Model
         'has_attachment',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'id' => 'integer',
         'publisher_id' => 'integer',
@@ -49,6 +39,6 @@ class Post extends Model
 
     public function publisher(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'publisher_id');
     }
 }

@@ -3,20 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Model
+class User extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'email',
@@ -25,24 +21,15 @@ class User extends Model
         'role_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'id' => 'integer',
         'group_id' => 'integer',
         'role_id' => 'integer',
+        'password' => 'hashed',
     ];
 
     public function role(): BelongsTo
@@ -52,16 +39,13 @@ class User extends Model
 
     public function group(): belongsToMany
     {
-        return $this->belongsToMany(Group::class);
+        return $this->belongsToMany(Group::class, 'group_user_members');
     }
 
-    public function groups(): BelongsToMany
+    public function applies(): BelongsToMany
     {
-        return $this->belongsToMany(Group::class)
-            ->using(Invite::class)
-            ->as('invite')
-            ->withPivot('status_id', 'note')
-            ->withTimestamps();
+        return $this->belongsToMany(Group::class, 'group_user_applies')
+            ->using(Apply::class);
     }
 
     public function subjects(): BelongsToMany
@@ -71,6 +55,6 @@ class User extends Model
 
     public function posts(): HasMany
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class, 'publisher_id');
     }
 }
