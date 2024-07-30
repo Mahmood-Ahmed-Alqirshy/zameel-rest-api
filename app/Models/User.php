@@ -51,9 +51,9 @@ class User extends Model
     }
 
 
-    public function group(): BelongsTo
+    public function group(): belongsToMany
     {
-        return $this->belongsTo(Group::class);
+        return $this->belongsToMany(Group::class);
     }
 
     public function groups(): BelongsToMany
@@ -63,11 +63,6 @@ class User extends Model
             ->as('invite')
             ->withPivot('status_id', 'note')
             ->withTimestamps();
-    }
-
-    public function represent(): belongsTo
-    {
-        return $this->belongsTo(Post::class);
     }
 
     public function subjects(): BelongsToMany

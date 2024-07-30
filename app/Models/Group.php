@@ -50,9 +50,9 @@ class Group extends Model
             ->withTimestamps();
     }
 
-    public function representer(): HasOne
+    public function members(): belongsToMany
     {
-        return $this->HasOne(User::class);
+        return $this->belongsToMany(User::class);
     }
 
     public function major(): BelongsTo

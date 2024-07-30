@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('group_user_members', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('publisher_id')->constrained()->cascadeOnDelete();
-            $table->morphs('taggable');
-            $table->text('content')->nullable();
-            $table->boolean('has_attachment');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('group_id')->constrained()->cascadeOnDelete();
+            $table->boolean('isRepresnter');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('group_user');
     }
 };

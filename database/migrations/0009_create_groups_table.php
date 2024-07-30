@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->year('join_year');
             $table->foreignId('major_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('representer_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
