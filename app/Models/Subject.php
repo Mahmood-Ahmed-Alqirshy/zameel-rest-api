@@ -43,5 +43,4 @@ class Subject extends Model
     {
         return $this->morphMany(Post::class, 'taggable');
     }
-
 }

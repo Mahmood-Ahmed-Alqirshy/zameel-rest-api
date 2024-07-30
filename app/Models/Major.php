@@ -61,5 +61,4 @@ class Major extends Model
     {
         return $this->morphMany(Post::class, 'taggable');
     }
-
 }
