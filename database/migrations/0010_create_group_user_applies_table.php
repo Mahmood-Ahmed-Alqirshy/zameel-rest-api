@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('group_user_invites', function (Blueprint $table) {
+        Schema::create('group_user_applies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('group_id')->constrained()->cascadeOnDelete();
             $table->foreignId('status_id')->constrained()->cascadeOnDelete();
-            $table->string('note', 45)->nullable();
+            $table->string('note', 255)->nullable();
             $table->timestamps();
         });
     }
