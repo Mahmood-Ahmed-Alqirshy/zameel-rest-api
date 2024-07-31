@@ -3,17 +3,17 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Role;
-use App\Models\User;
+use App\Models\Group;
+use App\Models\Major;
 
-class UserFactory extends Factory
+class GroupFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = User::class;
+    protected $model = Group::class;
 
     /**
      * Define the model's default state.
@@ -21,10 +21,8 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'password' => 'password',
-            'role_id' => Role::inRandomOrder()->first()->id,
+            'join_year' => fake()->numberBetween(2015, 2024),
+            'major_id' => Major::inRandomOrder()->first()->id,
         ];
     }
 }
