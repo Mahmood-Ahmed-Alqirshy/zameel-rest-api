@@ -8,16 +8,8 @@ use App\Models\Post;
 
 class FileFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = File::class;
 
-    /**
-     * Define the model's default state.
-     */
     public function definition(): array
     {
         $fileTypes = [

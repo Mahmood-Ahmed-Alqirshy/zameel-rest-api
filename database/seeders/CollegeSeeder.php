@@ -2,15 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\College;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class CollegesTableSeeder extends Seeder
+class CollegeSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $colleges = [
