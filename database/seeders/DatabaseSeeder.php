@@ -2,27 +2,19 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-
-class DatabaseSeeder extends Seeder
+class DatabaseSeeder extends BaseSeeder
 {
     public function run(): void
     {
+        $this->insertToDataBase('roles', $this->roles);
+        $this->insertToDataBase('statuses', $this->statuses);
+        $this->insertToDataBase('colleges', $this->colleges);
+        $this->insertToDataBase('degrees', $this->degrees);
+        $this->importCsv('subjects', 'csv/subjects.csv');
+        $this->importCsv('majors', 'csv/majors.csv');
+
         $this->call([
-            CollegeSeeder::class,
-            DegreeSeeder::class,
-            MajorSeeder::class,
-            SubjectSeeder::class,
-            MajorSubjectSeeder::class,
-            RoleSeeder::class,
-            StatusSeeder::class,
-            UserSeeder::class,
-            SubjectUserSeeder::class,
-            GroupSeeder::class,
-            MemberSeeder::class,
-            ApplySeeder::class,
-            PostSeeder::class,
-            FileSeeder::class
+            FakeDataSeeder::class
         ]);
     }
 }
