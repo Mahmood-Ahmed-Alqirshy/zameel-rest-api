@@ -16,14 +16,14 @@ class Member extends Pivot
         'group_id',
         'user_id',
         'status_id',
-        'isRepresnter',
+        'isRepresenter',
     ];
 
     protected $casts = [
         'id' => 'integer',
         'group_id' => 'integer',
         'user_id' => 'integer',
-        'isRepresnter' => 'boolean',
+        'isRepresenter' => 'boolean',
     ];
 
     public function group(): BelongsTo

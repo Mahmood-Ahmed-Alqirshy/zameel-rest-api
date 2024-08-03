@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('publisher_id')->constrained('users')->cascadeOnDelete();
-            $table->morphs('taggable');
+            $table->nullableMorphs('taggable');
             $table->text('content')->nullable();
             $table->boolean('has_attachment');
             $table->timestamps();
