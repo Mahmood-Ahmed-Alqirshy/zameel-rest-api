@@ -2,7 +2,7 @@
 
 namespace App\Authorization;
 
-Enum Role: int
+enum Role: int
 {
     case SUPERADMIN = 1;
     case MANAGER = 2;
@@ -10,12 +10,14 @@ Enum Role: int
     case REPRESENTER = 4;
     case STUDENT = 5;
 
-    public function id() {
+    public function id()
+    {
         return $this->value;
     }
 
-    public function abilities() {
-        return match($this) {
+    public function abilities()
+    {
+        return match ($this) {
             Role::SUPERADMIN => Abilities::getAbilities(Role::SUPERADMIN),
             Role::MANAGER => Abilities::getAbilities(Role::MANAGER),
             Role::ACADEMIC => Abilities::getAbilities(Role::ACADEMIC),

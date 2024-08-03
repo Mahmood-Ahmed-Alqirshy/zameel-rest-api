@@ -4,15 +4,17 @@ namespace App\Authorization;
 
 abstract class Abilities
 {
+    abstract public function grant(): array;
 
-    public abstract function grant(): array;
-
-    public static function grantAbilities(array $grantedAbilities) {
-        foreach(array_keys($grantedAbilities) as $role) 
+    public static function grantAbilities(array $grantedAbilities)
+    {
+        foreach (array_keys($grantedAbilities) as $role) {
             self::$Abilities[$role] = array_merge(self::$Abilities[$role], $grantedAbilities[$role]);
+        }
     }
 
-    public static function getAbilities(Role $role) {
+    public static function getAbilities(Role $role)
+    {
         return self::$Abilities[$role->value];
     }
 
