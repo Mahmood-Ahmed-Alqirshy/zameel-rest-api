@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Group;
 use App\Models\Member;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MemberFactory extends Factory
 {
@@ -16,7 +16,7 @@ class MemberFactory extends Factory
         return [
             'user_id' => User::inRandomOrder()->first()->id,
             'group_id' => Group::inRandomOrder()->first()->id,
-            'isRepresenter' => fake()->boolean()
+            'isRepresenter' => fake()->boolean(),
         ];
     }
 }

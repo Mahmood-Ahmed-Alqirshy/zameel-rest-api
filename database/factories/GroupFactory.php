@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Group;
 use App\Models\Major;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GroupFactory extends Factory
 {

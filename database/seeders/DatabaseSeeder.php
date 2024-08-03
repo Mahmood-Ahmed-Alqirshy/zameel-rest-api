@@ -14,7 +14,7 @@ class DatabaseSeeder extends BaseSeeder
         $this->importCsv('majors', 'csv/majors.csv');
 
         $this->call([
-            FakeDataSeeder::class
+            FakeDataSeeder::class,
         ]);
     }
 }

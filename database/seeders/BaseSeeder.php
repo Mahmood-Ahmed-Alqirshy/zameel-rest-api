@@ -12,13 +12,13 @@ class BaseSeeder extends Seeder
         ['name' => 'إداري'],
         ['name' => 'أكاديمي'],
         ['name' => 'مندوب'],
-        ['name' => 'طالب']
+        ['name' => 'طالب'],
     ];
 
     protected $statuses = [
         ['name' => 'مقبول'],
         ['name' => 'معلق'],
-        ['name' => 'مرفوض']
+        ['name' => 'مرفوض'],
     ];
 
     protected $colleges = [
@@ -31,7 +31,7 @@ class BaseSeeder extends Seeder
         ['name' => 'دبلوم'],
         ['name' => 'بكالوريوس'],
         ['name' => 'ماجستير'],
-        ['name' => 'دكتوراة']
+        ['name' => 'دكتوراة'],
     ];
 
     protected function insertToDataBase($table, $data)

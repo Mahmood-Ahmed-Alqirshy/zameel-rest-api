@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\File;
 use App\Models\Post;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FileFactory extends Factory
 {
@@ -17,7 +17,7 @@ class FileFactory extends Factory
             'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx',
             'mp3', 'wav', 'ogg', 'flac', 'aac',
             'mp4', 'avi', 'mov', 'mkv', 'webm',
-            'zip', 'rar', 'tar', 'gz', '7z'
+            'zip', 'rar', 'tar', 'gz', '7z',
         ];
 
         return [
