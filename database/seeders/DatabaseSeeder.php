@@ -2,19 +2,30 @@
 
 namespace Database\Seeders;
 
+use App\Models\College;
+use App\Models\Degree;
+use App\Models\Major;
+use App\Models\Role;
+use App\Models\Status;
+use App\Models\Subject;
+
 class DatabaseSeeder extends BaseSeeder
 {
     public function run(): void
     {
-        $this->insertToDataBase('roles', $this->roles);
-        $this->insertToDataBase('statuses', $this->statuses);
-        $this->insertToDataBase('colleges', $this->colleges);
-        $this->insertToDataBase('degrees', $this->degrees);
-        $this->importCsv('subjects', 'csv/subjects.csv');
-        $this->importCsv('majors', 'csv/majors.csv');
 
-        $this->call([
-            FakeDataSeeder::class,
-        ]);
+        Role::insert($this->roles);
+
+        Status::insert($this->statuses);
+
+        College::insert($this->colleges);
+
+        Degree::insert($this->degrees);
+
+        Subject::insert(CSV('subjects'));
+
+        Major::insert(CSV('majors'));
+
+        $this->call(FakeDataSeeder::class);
     }
 }
