@@ -15,8 +15,8 @@ class AuthenticationController extends Controller
             'password' => 'required|string',
             'deviceName' => 'required|string|max:45',
         ]);
-        $user = User::where('email', $validated['email'])
-            ->first();
+
+        $user = User::where('email', $validated['email'])->first();
         if ($user && Hash::check($validated['password'], $user->password)) {
             $token = $user->createToken($validated['deviceName']);
 

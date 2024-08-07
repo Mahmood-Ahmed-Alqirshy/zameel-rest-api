@@ -13,16 +13,16 @@ abstract class Abilities
         }
     }
 
-    public static function getAbilities(Role $role)
+    public static function getAbilities(AuthorizationRole $role)
     {
         return self::$Abilities[$role->value];
     }
 
     public static $Abilities = [
-        Role::SUPERADMIN->value => ['*'],
-        Role::MANAGER->value => [],
-        Role::ACADEMIC->value => [],
-        Role::REPRESENTER->value => [],
-        Role::STUDENT->value => [],
+        AuthorizationRole::SUPERADMIN->value => ['*'],
+        AuthorizationRole::MANAGER->value => [],
+        AuthorizationRole::ACADEMIC->value => [],
+        AuthorizationRole::REPRESENTER->value => [],
+        AuthorizationRole::STUDENT->value => [],
     ];
 }

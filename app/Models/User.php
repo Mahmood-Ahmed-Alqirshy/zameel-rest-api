@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Authorization\Abilities;
+use App\Authorization\AuthorizationRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -57,5 +59,9 @@ class User extends Authenticatable
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'publisher_id');
+    }
+    
+    public function abilities() {
+        return Abilities::getAbilities(AuthorizationRole::from($this->role_id));
     }
 }

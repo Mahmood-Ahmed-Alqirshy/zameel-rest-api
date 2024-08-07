@@ -2,11 +2,14 @@
 
 namespace Tests;
 
+use Database\Seeders\TestSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+
+use function Pest\Laravel\postJson;
 
 abstract class TestCase extends BaseTestCase
 {
-    protected $seed = true;
+    protected $seeder = TestSeeder::class;
 
     protected function setUp(): void
     {
@@ -16,7 +19,7 @@ abstract class TestCase extends BaseTestCase
 
     public function makeToken()
     {
-        $response = $this->postJson('/api/login', $this->credentials, ['Accept' => 'application/json']);
+        $response = postJson('/api/login', $this->credentials, ['Accept' => 'application/json']);
         $this->token = $response->json()['token'];
     }
 
