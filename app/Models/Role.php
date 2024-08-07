@@ -25,7 +25,8 @@ class Role extends Model
         return $this->hasMany(User::class);
     }
 
-    public function abilities() {
+    public function abilities()
+    {
         return Abilities::getAbilities(AuthorizationRole::from($this->id));
     }
 }

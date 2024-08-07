@@ -60,8 +60,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class, 'publisher_id');
     }
-    
-    public function abilities() {
+
+    public function abilities()
+    {
         return Abilities::getAbilities(AuthorizationRole::from($this->role_id));
     }
 }

@@ -8,9 +8,7 @@ use App\Models\Major;
 use App\Models\Role;
 use App\Models\Status;
 use App\Models\Subject;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends BaseSeeder
 {
@@ -28,7 +26,8 @@ class DatabaseSeeder extends BaseSeeder
 
         Major::insert(CSV('majors'));
 
-        if(DB::connection()->getName() !== 'testing' && app()->environment('local'))
+        if (DB::connection()->getName() !== 'testing' && app()->environment('local')) {
             $this->call(FakeDataSeeder::class);
+        }
     }
 }
