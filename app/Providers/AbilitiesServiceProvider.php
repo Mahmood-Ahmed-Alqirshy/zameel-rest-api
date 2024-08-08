@@ -15,7 +15,7 @@ class AbilitiesServiceProvider extends ServiceProvider
     public function register(): void
     {
 
-        $files = glob(app_path('\Authorization\Abilities').'/*.php');
+        $files = glob(app_path('/Authorization/Abilities').'/*.php');
         foreach ($files as $file) {
             // Extract the class name from the file name
             $className = basename($file, '.php');
