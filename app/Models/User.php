@@ -2,16 +2,19 @@
 
 namespace App\Models;
 
+use App\Authorization\Abilities;
+use App\Authorization\AuthorizationRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
@@ -30,6 +33,10 @@ class User extends Authenticatable
         'group_id' => 'integer',
         'role_id' => 'integer',
         'password' => 'hashed',
+    ];
+
+    protected $attributes = [
+        'role_id' => AuthorizationRole::STUDENT->value,
     ];
 
     public function role(): BelongsTo
@@ -56,5 +63,10 @@ class User extends Authenticatable
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'publisher_id');
+    }
+
+    public function abilities()
+    {
+        return Abilities::getAbilities(AuthorizationRole::from($this->role_id));
     }
 }
