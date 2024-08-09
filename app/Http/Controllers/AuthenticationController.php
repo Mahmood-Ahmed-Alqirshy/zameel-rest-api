@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthenticationController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $validated = $request->validate([
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string',
-            'deviceName' => 'required|string|max:45',
-        ]);
+        $data = $request->formattedData();
 
-        $user = User::where('email', $validated['email'])->first();
-        if ($user && Hash::check($validated['password'], $user->password)) {
-            $token = $user->createToken($validated['deviceName']);
+        $user = User::where('email', $data['email'])->first();
+        if ($user && Hash::check($data['password'], $user->password)) {
+            $token = $user->createToken($data['deviceName']);
 
             return ['token' => $token->plainTextToken];
         } else {
@@ -31,5 +29,13 @@ class AuthenticationController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response()->json(['message' => 'loged out'], 200);
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        $data = $request->formattedData();
+        User::create($data['model']);
+
+        return response()->json(['message' => 'created'], 200);
     }
 }

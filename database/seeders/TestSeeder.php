@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Group;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -21,5 +22,7 @@ class TestSeeder extends Seeder
             'password' => Hash::make('password'),
             'role_id' => 1,
         ]);
+
+        Group::factory()->create();
     }
 }

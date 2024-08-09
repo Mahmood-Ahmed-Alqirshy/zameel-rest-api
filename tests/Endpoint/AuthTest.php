@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Group;
+
 use function Pest\Laravel\postJson;
 
 it('can login', function () {
@@ -9,7 +11,17 @@ it('can login', function () {
 });
 
 it('rejects wrong credentials', function ($email, $password) {
-    $invalidCredentials = ['email' => $email, 'password' => $password, 'deviceName' => 'IPhone 13'];
+    $invalidCredentials = [
+        'data' => [
+            'atttibutes' => [
+                'email' => $email,
+                'password' => $password,
+            ]
+        ],
+        'meta' => [
+            'deviceName' => 'IPhone 13'
+        ]
+    ];
 
     postJson('/api/login', $invalidCredentials)
         ->assertUnauthorized();
@@ -21,16 +33,10 @@ it('rejects wrong credentials', function ($email, $password) {
 ]);
 
 it('rejects incomplete credentials', function ($credentials) {
-
     postJson('/api/login', $credentials)
-        ->assertUnprocessable();
-
-})->with([
-    [['email' => 'Mahmoud@gmail.com', 'deviceName' => 'IPhone 13']],
-    [['password' => 'password', 'deviceName' => 'IPhone 13']],
-    [['email' => 'Mahmoud@gmail.com', 'password' => 'password']],
-    [[]],
-]);
+    ->assertUnprocessable();
+    
+})->with('incompleteCredentials');
 
 it('can logout', function () {
     postJson('/api/logout', [], ['Authorization' => "Bearer $this->token"])
@@ -41,3 +47,14 @@ it("can't logout without token", function () {
     postJson('/api/logout')
         ->assertUnauthorized();
 });
+
+it("can register user with valid data", function ($data) {
+    postJson('/api/register', $data)
+        ->assertOK();
+})->with('vaildRegisters');
+
+it("can't register user with invalid data", function ($data) {
+    postJson('/api/register', $data)
+        ->assertUnprocessable();
+})->with('invalidRegisters');
+

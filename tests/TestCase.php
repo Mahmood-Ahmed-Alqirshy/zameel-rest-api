@@ -25,5 +25,15 @@ abstract class TestCase extends BaseTestCase
 
     public $token = '';
 
-    public $credentials = ['email' => 'Mahmoud@gmail.com', 'password' => 'password', 'deviceName' => 'IPhone 13'];
+    public $credentials = [
+        'data' => [
+            'atttibutes' => [
+                'email' => 'Mahmoud@gmail.com',
+                'password' => 'password',
+            ]
+        ],
+        'meta' => [
+            'deviceName' => 'IPhone 13'
+        ]
+    ];
 }
