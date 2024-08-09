@@ -11,20 +11,6 @@ dataset('vaildRegisters', function () {
                     "password" => "12(Mn)Up",
                     "password_confirmation" => "12(Mn)Up",
                 ],
-                "relationships" => [
-                    "class" => [
-                        "data" => [
-                            "type" => "class",
-                            "id" => 1
-                        ]
-                    ],
-                    "role" => [
-                        "data" => [
-                            "type" => "role",
-                            "id" => "1"
-                        ]
-                    ]
-                ]
             ]
         ]],
         [[
@@ -36,14 +22,6 @@ dataset('vaildRegisters', function () {
                     "password" => "12(Mn)34",
                     "password_confirmation" => "12(Mn)34"
                 ],
-                "relationships" => [
-                    "role" => [
-                        "data" => [
-                            "type" => "role",
-                            "id" => "1"
-                        ]
-                    ]
-                ]
             ]
         ]],
     ];

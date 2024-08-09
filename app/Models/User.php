@@ -35,6 +35,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    protected $attributes = [
+        'role_id' => AuthorizationRole::STUDENT->value,
+    ];
+
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);

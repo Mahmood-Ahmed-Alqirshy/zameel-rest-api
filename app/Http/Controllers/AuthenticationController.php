@@ -16,7 +16,7 @@ class AuthenticationController extends Controller
 
         $user = User::where('email', $data['email'])->first();
         if ($user && Hash::check($data['password'], $user->password)) {
-            $token = $user->createToken($data['deviceName']);
+            $token = $user->createToken($data['deviceName'], $user->abilities());
 
             return ['token' => $token->plainTextToken];
         } else {
