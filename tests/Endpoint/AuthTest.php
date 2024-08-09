@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Group;
-
 use function Pest\Laravel\postJson;
 
 it('can login', function () {
@@ -16,11 +14,11 @@ it('rejects wrong credentials', function ($email, $password) {
             'atttibutes' => [
                 'email' => $email,
                 'password' => $password,
-            ]
+            ],
         ],
         'meta' => [
-            'deviceName' => 'IPhone 13'
-        ]
+            'deviceName' => 'IPhone 13',
+        ],
     ];
 
     postJson('/api/login', $invalidCredentials)
@@ -34,8 +32,8 @@ it('rejects wrong credentials', function ($email, $password) {
 
 it('rejects incomplete credentials', function ($credentials) {
     postJson('/api/login', $credentials)
-    ->assertUnprocessable();
-    
+        ->assertUnprocessable();
+
 })->with('incompleteCredentials');
 
 it('can logout', function () {
@@ -48,7 +46,7 @@ it("can't logout without token", function () {
         ->assertUnauthorized();
 });
 
-it("can register user with valid data", function ($data) {
+it('can register user with valid data', function ($data) {
     postJson('/api/register', $data)
         ->assertOK();
 })->with('vaildRegisters');
@@ -57,4 +55,3 @@ it("can't register user with invalid data", function ($data) {
     postJson('/api/register', $data)
         ->assertUnprocessable();
 })->with('invalidRegisters');
-

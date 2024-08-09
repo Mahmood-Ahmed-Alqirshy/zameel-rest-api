@@ -1,10 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\File;
-
 it('it can map with paths contain single star', function () {
 
-  $json = <<< text
+    $json = <<< 'text'
     {
   "data": {
     "type": "major",
@@ -45,41 +43,40 @@ it('it can map with paths contain single star', function () {
 }
 text;
 
-  $source = json_decode($json, true);
-  $map = [
-    'data.atttibutes.name' => 'model.name',
-    'data.atttibutes.email' =>  'model.email',
-    'data.atttibutes.password' => 'model.password',
-    'data.relationships.class.data.*.id' => 'relationships.class.*',
-    'data.relationships.role.data.id' => 'model.role_id',
-  ];
+    $source = json_decode($json, true);
+    $map = [
+        'data.atttibutes.name' => 'model.name',
+        'data.atttibutes.email' => 'model.email',
+        'data.atttibutes.password' => 'model.password',
+        'data.relationships.class.data.*.id' => 'relationships.class.*',
+        'data.relationships.role.data.id' => 'model.role_id',
+    ];
 
-  $result = [];
+    $result = [];
 
-  foreach ($map as $path => $field) {
-    starMapping($source, $path, $result, $field);
-  }
+    foreach ($map as $path => $field) {
+        starMapping($source, $path, $result, $field);
+    }
 
+    $match = [
+        'model' => [
+            'name' => 'a',
+            'email' => 'email@example.com',
+            'password' => '1234',
+            'role_id' => 6,
+        ],
+        'relationships' => [
+            'class' => [1, 4, 5, 7],
+        ],
+    ];
 
-  $match = [
-    'model' => [
-      'name' => 'a',
-      'email' => 'email@example.com',
-      'password' => "1234",
-      'role_id' => 6
-    ],
-    'relationships' => [
-      'class' => [1, 4, 5, 7]
-    ]
-  ];
-
-  expect(count($result))->toEqual(count($match));
-  expect($result)->toMatchArray($match);
+    expect(count($result))->toEqual(count($match));
+    expect($result)->toMatchArray($match);
 });
 
 it('it can map with paths contain multiple star', function () {
 
-  $json = <<< text
+    $json = <<< 'text'
 {
     "data": {
         "type": "major",
@@ -174,72 +171,70 @@ it('it can map with paths contain multiple star', function () {
 }
 text;
 
-  $source = json_decode($json, true);
+    $source = json_decode($json, true);
 
-  $map = [
-    'data.atttibutes.name' => 'model.name',
-    'data.atttibutes.email' =>  'model.email',
-    'data.atttibutes.password' => 'model.password',
-    'data.relationships.class.data.*.id' => 'relationships.class.*.id',
-    'data.relationships.class.data.*.relationships.students.data.*.id' => 'relationships.class.*.students.*.id',
-    'data.relationships.class.data.*.relationships.students.data.*.relationships.posts.data.*.id' => 'relationships.class.*.students.*.posts.*',
-    'data.relationships.role.data.id' => 'model.role_id',
-  ];
+    $map = [
+        'data.atttibutes.name' => 'model.name',
+        'data.atttibutes.email' => 'model.email',
+        'data.atttibutes.password' => 'model.password',
+        'data.relationships.class.data.*.id' => 'relationships.class.*.id',
+        'data.relationships.class.data.*.relationships.students.data.*.id' => 'relationships.class.*.students.*.id',
+        'data.relationships.class.data.*.relationships.students.data.*.relationships.posts.data.*.id' => 'relationships.class.*.students.*.posts.*',
+        'data.relationships.role.data.id' => 'model.role_id',
+    ];
 
-  $result = [];
+    $result = [];
 
-  foreach ($map as $path => $field) {
-    starMapping($source, $path, $result, $field);
-  }
+    foreach ($map as $path => $field) {
+        starMapping($source, $path, $result, $field);
+    }
 
-
-  $match = [
-    'model' => [
-      'name' => 'a',
-      'email' => 'email@example.com',
-      'password' => "1234",
-      'role_id' => 6
-    ],
-    'relationships' => [
-      'class' => [
-        [
-          'id' => 1,
-          "students" => [
-            [
-              'id' => 98,
-              'posts' => [45, 32, 12]
-            ]
-          ]
+    $match = [
+        'model' => [
+            'name' => 'a',
+            'email' => 'email@example.com',
+            'password' => '1234',
+            'role_id' => 6,
         ],
-        [
-          'id' => 1,
-          "students" => [
-            [
-              'id' => 98,
-              'posts' => [45, 32, 12]
-            ]
-          ]
-        ],
-        [
-          'id' => 1,
-          "students" => [
-            [
-              'id' => 98,
-              'posts' => [45, 32, 12]
-            ]
-          ]
-        ],
-        
-      ]
-    ]
-  ];
+        'relationships' => [
+            'class' => [
+                [
+                    'id' => 1,
+                    'students' => [
+                        [
+                            'id' => 98,
+                            'posts' => [45, 32, 12],
+                        ],
+                    ],
+                ],
+                [
+                    'id' => 1,
+                    'students' => [
+                        [
+                            'id' => 98,
+                            'posts' => [45, 32, 12],
+                        ],
+                    ],
+                ],
+                [
+                    'id' => 1,
+                    'students' => [
+                        [
+                            'id' => 98,
+                            'posts' => [45, 32, 12],
+                        ],
+                    ],
+                ],
 
-  expect(count($result))->toEqual(count($match));
-  expect($result)->toMatchArray($match);
+            ],
+        ],
+    ];
+
+    expect(count($result))->toEqual(count($match));
+    expect($result)->toMatchArray($match);
 });
 
-
-it('throw exception when unequal number of stars', function() {
-  $d = [];
-  starMapping([], 'data.relationships.class.data.*.relationships.students.data.*.relationships.posts.data.*.id', $d, 'relationships.class.*.students.posts.*');
-})->throws(Exception::class, "unequal number of stars in \$sourcePath and \$destinationPath");
+it('throw exception when unequal number of stars', function () {
+    $d = [];
+    starMapping([], 'data.relationships.class.data.*.relationships.students.data.*.relationships.posts.data.*.id', $d, 'relationships.class.*.students.posts.*');
+})->throws(Exception::class, 'unequal number of stars in $sourcePath and $destinationPath');

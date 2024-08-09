@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\File;
 
 function CSV($fileName): array
 {
-    $file = File::lines(database_path('csv/' . $fileName . '.csv'));
+    $file = File::lines(database_path('csv/'.$fileName.'.csv'));
     $headers = explode(',', $file->first());
 
     foreach ($file->skip(1) as $line) {
@@ -24,11 +24,13 @@ function CSV($fileName): array
 
 function starMapping($source, $sourcePath, &$destination, $destinationPath)
 {
-    if(substr_count($sourcePath, '*') !== substr_count($destinationPath, '*'))
-        throw new Exception("unequal number of stars in \$sourcePath and \$destinationPath", 3);
+    if (substr_count($sourcePath, '*') !== substr_count($destinationPath, '*')) {
+        throw new Exception('unequal number of stars in $sourcePath and $destinationPath', 3);
+    }
 
     if (strpos($sourcePath, '*') == false) {
         Arr::set($destination, $destinationPath, Arr::get($source, $sourcePath, null));
+
         return;
     }
 

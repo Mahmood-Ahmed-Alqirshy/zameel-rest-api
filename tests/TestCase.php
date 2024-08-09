@@ -30,10 +30,10 @@ abstract class TestCase extends BaseTestCase
             'atttibutes' => [
                 'email' => 'Mahmoud@gmail.com',
                 'password' => 'password',
-            ]
+            ],
         ],
         'meta' => [
-            'deviceName' => 'IPhone 13'
-        ]
+            'deviceName' => 'IPhone 13',
+        ],
     ];
 }
