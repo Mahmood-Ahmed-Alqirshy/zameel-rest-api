@@ -4,7 +4,7 @@ dataset('loginCredentials', function () {
     return [
         [[
             'data' => [
-                'atttibutes' => [
+                'attributes' => [
                     'email' => 'admin@example.com',
                     'password' => 'password',
                 ],
@@ -15,7 +15,7 @@ dataset('loginCredentials', function () {
         ]],
         [[
             'data' => [
-                'atttibutes' => [
+                'attributes' => [
                     'email' => 'manager@example.com',
                     'password' => 'password',
                 ],
@@ -26,7 +26,7 @@ dataset('loginCredentials', function () {
         ]],
         [[
             'data' => [
-                'atttibutes' => [
+                'attributes' => [
                     'email' => 'academic@example.com',
                     'password' => 'password',
                 ],
@@ -37,7 +37,7 @@ dataset('loginCredentials', function () {
         ]],
         [[
             'data' => [
-                'atttibutes' => [
+                'attributes' => [
                     'email' => 'representer@example.com',
                     'password' => 'password',
                 ],
@@ -48,7 +48,7 @@ dataset('loginCredentials', function () {
         ]],
         [[
             'data' => [
-                'atttibutes' => [
+                'attributes' => [
                     'email' => 'student@example.com',
                     'password' => 'password',
                 ],

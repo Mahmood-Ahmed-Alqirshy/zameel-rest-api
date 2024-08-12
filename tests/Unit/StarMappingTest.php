@@ -6,7 +6,7 @@ it('it can map with paths contain single star', function () {
     {
   "data": {
     "type": "major",
-    "atttibutes": {
+    "attributes": {
         "name": "a",
         "email": "email@example.com",
       "password": "1234"
@@ -45,9 +45,9 @@ text;
 
     $source = json_decode($json, true);
     $map = [
-        'data.atttibutes.name' => 'model.name',
-        'data.atttibutes.email' => 'model.email',
-        'data.atttibutes.password' => 'model.password',
+        'data.attributes.name' => 'model.name',
+        'data.attributes.email' => 'model.email',
+        'data.attributes.password' => 'model.password',
         'data.relationships.class.data.*.id' => 'relationships.class.*',
         'data.relationships.role.data.id' => 'model.role_id',
     ];
@@ -80,7 +80,7 @@ it('it can map with paths contain multiple star', function () {
 {
     "data": {
         "type": "major",
-        "atttibutes": {
+        "attributes": {
             "name": "a",
             "email": "email@example.com",
             "password": "1234"
@@ -174,9 +174,9 @@ text;
     $source = json_decode($json, true);
 
     $map = [
-        'data.atttibutes.name' => 'model.name',
-        'data.atttibutes.email' => 'model.email',
-        'data.atttibutes.password' => 'model.password',
+        'data.attributes.name' => 'model.name',
+        'data.attributes.email' => 'model.email',
+        'data.attributes.password' => 'model.password',
         'data.relationships.class.data.*.id' => 'relationships.class.*.id',
         'data.relationships.class.data.*.relationships.students.data.*.id' => 'relationships.class.*.students.*.id',
         'data.relationships.class.data.*.relationships.students.data.*.relationships.posts.data.*.id' => 'relationships.class.*.students.*.posts.*',

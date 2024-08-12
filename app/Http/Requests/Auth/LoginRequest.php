@@ -7,8 +7,8 @@ use App\Http\Requests\BaseRequest;
 class LoginRequest extends BaseRequest
 {
     protected $map = [
-        'data.atttibutes.email' => 'email',
-        'data.atttibutes.password' => 'password',
+        'data.attributes.email' => 'email',
+        'data.attributes.password' => 'password',
         'meta.deviceName' => 'deviceName',
     ];
 
@@ -20,8 +20,8 @@ class LoginRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'data.atttibutes.email' => 'required|string|email|max:255',
-            'data.atttibutes.password' => 'required|string',
+            'data.attributes.email' => 'required|string|email|max:255',
+            'data.attributes.password' => 'required|string',
             'meta.deviceName' => 'required|string|max:45',
         ];
     }

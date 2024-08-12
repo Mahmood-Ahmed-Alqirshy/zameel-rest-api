@@ -11,7 +11,7 @@ it('can login', function ($credentials) {
 it('rejects wrong credentials', function ($email, $password) {
     $invalidCredentials = [
         'data' => [
-            'atttibutes' => [
+            'attributes' => [
                 'email' => $email,
                 'password' => $password,
             ],
@@ -23,7 +23,6 @@ it('rejects wrong credentials', function ($email, $password) {
 
     postJson('/api/login', $invalidCredentials)
         ->assertUnauthorized();
-
 })->with([
     ['Ahmed@gmail.com', 'password'],
     ['Mahmoud@gmail.com', '1234'],
@@ -33,7 +32,6 @@ it('rejects wrong credentials', function ($email, $password) {
 it('rejects incomplete credentials', function ($credentials) {
     postJson('/api/login', $credentials)
         ->assertUnprocessable();
-
 })->with('incompleteCredentials');
 
 it('can logout', function () {

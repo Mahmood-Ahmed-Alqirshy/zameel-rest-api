@@ -47,7 +47,7 @@ abstract class TestCase extends BaseTestCase
 
     public $adminCredentials = [
         'data' => [
-            'atttibutes' => [
+            'attributes' => [
                 'email' => 'admin@example.com',
                 'password' => 'password',
             ],
@@ -59,7 +59,7 @@ abstract class TestCase extends BaseTestCase
 
     public $managerCredentials = [
         'data' => [
-            'atttibutes' => [
+            'attributes' => [
                 'email' => 'manager@example.com',
                 'password' => 'password',
             ],
@@ -71,7 +71,7 @@ abstract class TestCase extends BaseTestCase
 
     public $academicCredentials = [
         'data' => [
-            'atttibutes' => [
+            'attributes' => [
                 'email' => 'academic@example.com',
                 'password' => 'password',
             ],
@@ -83,7 +83,7 @@ abstract class TestCase extends BaseTestCase
 
     public $representerCredentials = [
         'data' => [
-            'atttibutes' => [
+            'attributes' => [
                 'email' => 'representer@example.com',
                 'password' => 'password',
             ],
@@ -95,7 +95,7 @@ abstract class TestCase extends BaseTestCase
 
     public $studentCredentials = [
         'data' => [
-            'atttibutes' => [
+            'attributes' => [
                 'email' => 'student@example.com',
                 'password' => 'password',
             ],
