@@ -2,11 +2,11 @@
 
 use function Pest\Laravel\postJson;
 
-it('can login', function () {
-    postJson('/api/login', $this->credentials)
+it('can login', function ($credentials) {
+    postJson('/api/login', $credentials)
         ->assertOK()
         ->assertJsonStructure(['token']);
-});
+})->with('loginCredentials');
 
 it('rejects wrong credentials', function ($email, $password) {
     $invalidCredentials = [
@@ -37,7 +37,7 @@ it('rejects incomplete credentials', function ($credentials) {
 })->with('incompleteCredentials');
 
 it('can logout', function () {
-    postJson('/api/logout', [], ['Authorization' => "Bearer $this->token"])
+    postJson('/api/logout', [], ['Authorization' => "Bearer $this->adminToken"])
         ->assertOK();
 });
 
