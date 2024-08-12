@@ -15,7 +15,7 @@ class BaseRequest extends FormRequest
         if ($this->map === null) {
             throw new Exception('unspecified $map', 3);
         }
-      
+
         $formattedData = [];
         $validatedData = $this->validated();
         foreach ($this->map as $sourcePath => $destinationPath) {
