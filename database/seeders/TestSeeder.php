@@ -17,10 +17,38 @@ class TestSeeder extends Seeder
         $this->call(DatabaseSeeder::class);
 
         User::create([
-            'name' => 'Mahmoud',
-            'email' => 'Mahmoud@gmail.com',
+            'name' => 'admin',
+            'email' => 'admin@example.com',
             'password' => Hash::make('password'),
             'role_id' => 1,
+        ]);
+
+        User::create([
+            'name' => 'manager',
+            'email' => 'manager@example.com',
+            'password' => Hash::make('password'),
+            'role_id' => 2,
+        ]);
+
+        User::create([
+            'name' => 'academic',
+            'email' => 'academic@example.com',
+            'password' => Hash::make('password'),
+            'role_id' => 3,
+        ]);
+
+        User::create([
+            'name' => 'representer',
+            'email' => 'representer@example.com',
+            'password' => Hash::make('password'),
+            'role_id' => 4,
+        ]);
+
+        User::create([
+            'name' => 'student',
+            'email' => 'student@example.com',
+            'password' => Hash::make('password'),
+            'role_id' => 5,
         ]);
 
         Group::factory()->create();

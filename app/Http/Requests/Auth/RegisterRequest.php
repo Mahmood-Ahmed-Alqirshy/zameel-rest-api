@@ -11,8 +11,6 @@ class RegisterRequest extends BaseRequest
         'data.atttibutes.name' => 'model.name',
         'data.atttibutes.email' => 'model.email',
         'data.atttibutes.password' => 'model.password',
-        // 'data.relationships.group.data.id' =>'model.group_id',
-        // 'data.relationships.role.data.id' =>  'model.role_id',
     ];
 
     /**
@@ -34,8 +32,6 @@ class RegisterRequest extends BaseRequest
             'data.atttibutes.name' => 'required|string|regex:/^[\p{L}\p{M}\s]+$/u|max:255',
             'data.atttibutes.email' => 'required|string|max:255|email',
             'data.atttibutes.password' => ['required', 'confirmed', Password::defaults()],
-            // 'data.relationships.group.data.id' => 'required_with:data.relationships.group|integer|numeric|exists:groups,id',
-            // 'data.relationships.role.data.id' => 'required|integer|numeric|exists:roles,id',
         ];
     }
 }

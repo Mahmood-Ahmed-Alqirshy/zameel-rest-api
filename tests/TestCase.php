@@ -19,16 +19,81 @@ abstract class TestCase extends BaseTestCase
 
     public function makeToken()
     {
-        $response = postJson('/api/login', $this->credentials, ['Accept' => 'application/json']);
-        $this->token = $response->json()['token'];
+            $response = postJson('/api/login', $this->adminCredentials);
+            $this->adminToken = $response->json()['token'];
+
+            $response = postJson('/api/login', $this->managerCredentials);
+            $this->managerToken = $response->json()['token'];
+
+            $response = postJson('/api/login', $this->academicCredentials);
+            $this->academicToken = $response->json()['token'];
+
+            $response = postJson('/api/login', $this->representerCredentials);
+            $this->representerToken = $response->json()['token'];
+
+            $response = postJson('/api/login', $this->studentCredentials);
+            $this->studentToken = $response->json()['token'];
     }
 
-    public $token = '';
+    public $adminToken = '';
+    public $managerToken = '';
+    public $academicToken = '';
+    public $representerToken = '';
+    public $studentToken = '';
 
-    public $credentials = [
+    
+    public $adminCredentials = [
         'data' => [
             'atttibutes' => [
-                'email' => 'Mahmoud@gmail.com',
+                'email' => 'admin@example.com',
+                'password' => 'password',
+            ],
+        ],
+        'meta' => [
+            'deviceName' => 'IPhone 13',
+        ],
+    ];
+
+    public $managerCredentials = [
+        'data' => [
+            'atttibutes' => [
+                'email' => 'manager@example.com',
+                'password' => 'password',
+            ],
+        ],
+        'meta' => [
+            'deviceName' => 'IPhone 13',
+        ],
+    ];
+
+    public $academicCredentials = [
+        'data' => [
+            'atttibutes' => [
+                'email' => 'academic@example.com',
+                'password' => 'password',
+            ],
+        ],
+        'meta' => [
+            'deviceName' => 'IPhone 13',
+        ],
+    ];
+
+    public $representerCredentials = [
+        'data' => [
+            'atttibutes' => [
+                'email' => 'representer@example.com',
+                'password' => 'password',
+            ],
+        ],
+        'meta' => [
+            'deviceName' => 'IPhone 13',
+        ],
+    ];
+
+    public $studentCredentials = [
+        'data' => [
+            'atttibutes' => [
+                'email' => 'student@example.com',
                 'password' => 'password',
             ],
         ],
