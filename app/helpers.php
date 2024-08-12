@@ -30,10 +30,11 @@ function CSV($fileName): array
  *
  * If the source path does not contain a wildcard, the value is directly set in the destination array using the destination path.
  *
- * @param array $source The source array to map values from.
- * @param string $sourcePath The path in the source array to map values from, using a wildcard (`*`) to indicate array indices.
- * @param array $destination The destination array to map values to.
- * @param string $destinationPath The path in the destination array to map values to, using a wildcard (`*`) to indicate array indices.
+ * @param  array  $source  The source array to map values from.
+ * @param  string  $sourcePath  The path in the source array to map values from, using a wildcard (`*`) to indicate array indices.
+ * @param  array  $destination  The destination array to map values to.
+ * @param  string  $destinationPath  The path in the destination array to map values to, using a wildcard (`*`) to indicate array indices.
+ *
  * @throws Exception If the number of wildcards in the source path and destination path are not equal.
  */
 function starMapping($source, $sourcePath, &$destination, $destinationPath)

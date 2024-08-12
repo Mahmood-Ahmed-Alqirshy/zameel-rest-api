@@ -19,29 +19,32 @@ abstract class TestCase extends BaseTestCase
 
     public function makeToken()
     {
-            $response = postJson('/api/login', $this->adminCredentials);
-            $this->adminToken = $response->json()['token'];
+        $response = postJson('/api/login', $this->adminCredentials);
+        $this->adminToken = $response->json()['token'];
 
-            $response = postJson('/api/login', $this->managerCredentials);
-            $this->managerToken = $response->json()['token'];
+        $response = postJson('/api/login', $this->managerCredentials);
+        $this->managerToken = $response->json()['token'];
 
-            $response = postJson('/api/login', $this->academicCredentials);
-            $this->academicToken = $response->json()['token'];
+        $response = postJson('/api/login', $this->academicCredentials);
+        $this->academicToken = $response->json()['token'];
 
-            $response = postJson('/api/login', $this->representerCredentials);
-            $this->representerToken = $response->json()['token'];
+        $response = postJson('/api/login', $this->representerCredentials);
+        $this->representerToken = $response->json()['token'];
 
-            $response = postJson('/api/login', $this->studentCredentials);
-            $this->studentToken = $response->json()['token'];
+        $response = postJson('/api/login', $this->studentCredentials);
+        $this->studentToken = $response->json()['token'];
     }
 
     public $adminToken = '';
+
     public $managerToken = '';
+
     public $academicToken = '';
+
     public $representerToken = '';
+
     public $studentToken = '';
 
-    
     public $adminCredentials = [
         'data' => [
             'atttibutes' => [
