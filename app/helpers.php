@@ -22,6 +22,21 @@ function CSV($fileName): array
     return $rows;
 }
 
+/**
+ * Recursively maps values from a source array to a destination array based on a source path and destination path.
+ *
+ * The source path and destination path can contain a wildcard (`*`) character to indicate that the value should be mapped
+ * to an array index in the destination. The number of wildcards in the source path and destination path must be equal.
+ *
+ * If the source path does not contain a wildcard, the value is directly set in the destination array using the destination path.
+ *
+ * @param  array  $source  The source array to map values from.
+ * @param  string  $sourcePath  The path in the source array to map values from, using a wildcard (`*`) to indicate array indices.
+ * @param  array  $destination  The destination array to map values to.
+ * @param  string  $destinationPath  The path in the destination array to map values to, using a wildcard (`*`) to indicate array indices.
+ *
+ * @throws Exception If the number of wildcards in the source path and destination path are not equal.
+ */
 function starMapping($source, $sourcePath, &$destination, $destinationPath)
 {
     if (substr_count($sourcePath, '*') !== substr_count($destinationPath, '*')) {

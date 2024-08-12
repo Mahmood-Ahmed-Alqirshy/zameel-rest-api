@@ -10,8 +10,6 @@ class BaseRequest extends FormRequest
 {
     protected $map = null;
 
-    protected $isPatchRequest = false;
-
     public function formattedData()
     {
         if ($this->map === null) {
@@ -21,7 +19,9 @@ class BaseRequest extends FormRequest
         $formattedData = [];
         $validatedData = $this->validated();
         foreach ($this->map as $sourcePath => $destinationPath) {
-            if (! $this->isPatchRequest || Arr::has($validatedData, $sourcePath)) {
+            //if request method is not PATCH always true
+            //if request method is PATCH check if field exiest in validated data before mapping
+            if (! $this->isMethod('PATCH') || Arr::has($validatedData, $sourcePath)) {
                 starMapping($validatedData, $sourcePath, $formattedData, $destinationPath);
             }
         }
