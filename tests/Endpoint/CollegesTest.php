@@ -139,7 +139,7 @@ it('prevents non-admin roles from performing CRUD operations on colleges', funct
     $updateData = ['data' => ['attributes' => ['name' => 'Updated College']]];
 
     $nonAdminTokens = [
-        'managerToken', 'academicToken', 'representerToken', 'studentToken'
+        'managerToken', 'academicToken', 'representerToken', 'studentToken',
     ];
 
     foreach ($nonAdminTokens as $tokenName) {
@@ -149,10 +149,10 @@ it('prevents non-admin roles from performing CRUD operations on colleges', funct
         postJson('/api/colleges', $newCollege, ['Authorization' => "Bearer $this->$tokenName"])
             ->assertForbidden();
 
-        patchJson("/api/colleges/1", $updateData, ['Authorization' => "Bearer $this->$tokenName"])
+        patchJson('/api/colleges/1', $updateData, ['Authorization' => "Bearer $this->$tokenName"])
             ->assertForbidden();
 
-        deleteJson("/api/colleges/1", [], ['Authorization' => "Bearer $this->$tokenName"])
+        deleteJson('/api/colleges/1', [], ['Authorization' => "Bearer $this->$tokenName"])
             ->assertForbidden();
     }
 });
