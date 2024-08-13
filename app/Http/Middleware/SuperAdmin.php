@@ -18,8 +18,9 @@ class SuperAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->role_id !== AuthorizationRole::SUPERADMIN->id())
+        if (Auth::user()->role_id !== AuthorizationRole::SUPERADMIN->id()) {
             throw new UnauthorizedException('You are not authorized to access this endpoint.');
+        }
 
         return $next($request);
     }
