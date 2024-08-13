@@ -10,12 +10,20 @@ use App\Models\Member;
 use App\Models\Post;
 use App\Models\Subject;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class FakeDataSeeder extends BaseSeeder
 {
     public function run(): void
     {
         $this->majorSubjectSeeder();
+
+        User::create([
+            'name' => 'admin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
+            'role_id' => 1,
+        ]);
 
         User::factory(100)->create();
 

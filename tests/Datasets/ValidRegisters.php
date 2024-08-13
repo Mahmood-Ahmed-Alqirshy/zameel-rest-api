@@ -4,8 +4,8 @@ dataset('vaildRegisters', function () {
     return [
         [[
             'data' => [
-                'type' => 'major',
-                'atttibutes' => [
+                'type' => 'user',
+                'attributes' => [
                     'name' => 'أحمد',
                     'email' => 'Ahmed@email.com',
                     'password' => '12(Mn)Up',
@@ -15,8 +15,8 @@ dataset('vaildRegisters', function () {
         ]],
         [[
             'data' => [
-                'type' => 'major',
-                'atttibutes' => [
+                'type' => 'user',
+                'attributes' => [
                     'name' => 'أحمد',
                     'email' => 'Ahmed@email.com',
                     'password' => '12(Mn)34',

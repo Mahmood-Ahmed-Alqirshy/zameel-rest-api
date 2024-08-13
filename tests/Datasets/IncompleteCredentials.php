@@ -4,7 +4,7 @@ dataset('incompleteCredentials', function () {
     return [
         [[
             'data' => [
-                'atttibutes' => [
+                'attributes' => [
                     'email' => 'Mahmoud@gmail.com',
                 ],
             ],
@@ -14,7 +14,7 @@ dataset('incompleteCredentials', function () {
         ]],
         [[
             'data' => [
-                'atttibutes' => [
+                'attributes' => [
                     'password' => 'password',
                 ],
             ],
@@ -24,21 +24,18 @@ dataset('incompleteCredentials', function () {
         ]],
         [[
             'data' => [
-                'atttibutes' => [
+                'attributes' => [
                     'email' => 'Mahmoud@gmail.com',
                     'password' => 'password',
                 ],
             ],
-            'meta' => [
-            ],
+            'meta' => [],
         ]],
         [[
             'data' => [
-                'atttibutes' => [
-                ],
+                'attributes' => [],
             ],
-            'meta' => [
-            ],
+            'meta' => [],
         ]],
     ];
 });
