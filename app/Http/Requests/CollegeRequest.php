@@ -15,7 +15,7 @@ class CollegeRequest extends BaseRequest
      */
     public function rules(): array
     {
-        $needID = $this->isMethod('PATCH') || $this->isMethod('DELETE');
+        $needID = $this->isMethod('PATCH');
 
         return [
             'data.id' => ($needID ? 'required|' : 'missing|').'integer|numeric|exists:colleges,id',

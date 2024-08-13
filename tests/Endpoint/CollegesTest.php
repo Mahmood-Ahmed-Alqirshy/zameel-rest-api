@@ -133,3 +133,26 @@ it('protect Contact endpoints', function () {
     patchJson('/api/colleges/1')
         ->assertUnauthorized();
 });
+
+it('prevents non-admin roles from performing CRUD operations on colleges', function () {
+    $newCollege = ['data' => ['attributes' => ['name' => 'New College']]];
+    $updateData = ['data' => ['attributes' => ['name' => 'Updated College']]];
+
+    $nonAdminTokens = [
+        'managerToken', 'academicToken', 'representerToken', 'studentToken'
+    ];
+
+    foreach ($nonAdminTokens as $tokenName) {
+        getJson('/api/colleges', ['Authorization' => "Bearer $this->$tokenName"])
+            ->assertForbidden();
+
+        postJson('/api/colleges', $newCollege, ['Authorization' => "Bearer $this->$tokenName"])
+            ->assertForbidden();
+
+        patchJson("/api/colleges/1", $updateData, ['Authorization' => "Bearer $this->$tokenName"])
+            ->assertForbidden();
+
+        deleteJson("/api/colleges/1", [], ['Authorization' => "Bearer $this->$tokenName"])
+            ->assertForbidden();
+    }
+});
