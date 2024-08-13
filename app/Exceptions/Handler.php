@@ -41,34 +41,34 @@ class Handler
             'error' => [
                 'type' => basename(get_class($exception)),
                 'status' => $status,
-                'message' => $exception->getMessage() ?: 'Internal Server Error'
-            ]
+                'message' => $exception->getMessage() ?: 'Internal Server Error',
+            ],
         ], $status);
     }
 
-    public static function handleAuthenticationException(AuthenticationException $exception, Request  $request)
+    public static function handleAuthenticationException(AuthenticationException $exception, Request $request)
     {
         return response()->json([
             'error' => [
                 'type' => basename(get_class($exception)),
                 'status' => 403,
-                'message' => $exception->getMessage()
-            ]
+                'message' => $exception->getMessage(),
+            ],
         ], 403);
     }
 
-    public static function handleAuthorizationException(AuthenticationException $exception, Request  $request)
+    public static function handleAuthorizationException(AuthenticationException $exception, Request $request)
     {
         return response()->json([
             'error' => [
                 'type' => basename(get_class($exception)),
                 'status' => 401,
-                'message' => $exception->getMessage()
-            ]
+                'message' => $exception->getMessage(),
+            ],
         ], 401);
     }
 
-    public static function handleValidationException(ValidationException $exception, Request  $request)
+    public static function handleValidationException(ValidationException $exception, Request $request)
     {
         foreach ($exception->errors() as $key => $value) {
             foreach ($value as $message) {
@@ -89,8 +89,8 @@ class Handler
             'error' => [
                 'type' => basename(get_class($exception)),
                 'status' => 404,
-                'message' => 'Not Found: ' . $request->getRequestUri()
-            ]
+                'message' => 'Not Found: '.$request->getRequestUri(),
+            ],
         ], 404);
     }
 
@@ -100,8 +100,8 @@ class Handler
             'error' => [
                 'type' => basename(get_class($exception)),
                 'status' => 405,
-                'message' => 'Method Not Allowed'
-            ]
+                'message' => 'Method Not Allowed',
+            ],
         ], 405);
     }
 
@@ -111,8 +111,8 @@ class Handler
             'error' => [
                 'type' => basename(get_class($exception)),
                 'status' => $exception->getStatusCode(),
-                'message' => $exception->getMessage() ?: 'HTTP Error'
-            ]
+                'message' => $exception->getMessage() ?: 'HTTP Error',
+            ],
         ], $exception->getStatusCode());
     }
 
@@ -122,8 +122,8 @@ class Handler
             'error' => [
                 'type' => basename(get_class($exception)),
                 'status' => 500,
-                'message' => 'Database Query Error'
-            ]
+                'message' => 'Database Query Error',
+            ],
         ], 500);
     }
 
@@ -133,8 +133,8 @@ class Handler
             'error' => [
                 'type' => basename(get_class($exception)),
                 'status' => 500,
-                'message' => 'Email address already exists. Please try another one.'
-            ]
+                'message' => 'Email address already exists. Please try another one.',
+            ],
         ], 500);
     }
 }
