@@ -10,8 +10,8 @@ Route::post('/register', [AuthenticationController::class, 'register']);
 Route::post('/logout', [AuthenticationController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('colleges', CollegeController::class, ['except' => ['update']]);
-    Route::patch('/colleges/{college}', [CollegeController::class, 'update']);
+    Route::apiResource('colleges', CollegeController::class, ['except' => ['update']])->middleware('admin');
+    Route::patch('/colleges/{college}', [CollegeController::class, 'update'])->middleware('admin');
 });
 
 Route::get('/user', function (Request $request) {
