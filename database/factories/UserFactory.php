@@ -17,7 +17,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => Hash::make('password'),
-            'role_id' => Role::inRandomOrder()->first()->id,
+            'role_id' => Role::whereIn('id', [2, 3, 4, 5])->inRandomOrder()->first()->id,
         ];
     }
 }

@@ -8,9 +8,9 @@ use Illuminate\Validation\Rules\Password;
 class RegisterRequest extends BaseRequest
 {
     protected $map = [
-        'data.atttibutes.name' => 'model.name',
-        'data.atttibutes.email' => 'model.email',
-        'data.atttibutes.password' => 'model.password',
+        'data.attributes.name' => 'model.name',
+        'data.attributes.email' => 'model.email',
+        'data.attributes.password' => 'model.password',
     ];
 
     /**
@@ -29,9 +29,9 @@ class RegisterRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'data.atttibutes.name' => 'required|string|regex:/^[\p{L}\p{M}\s]+$/u|max:255',
-            'data.atttibutes.email' => 'required|string|max:255|email',
-            'data.atttibutes.password' => ['required', 'confirmed', Password::defaults()],
+            'data.attributes.name' => 'required|string|regex:/^[\p{L}\p{M}\s]+$/u|max:255',
+            'data.attributes.email' => 'required|string|max:255|email',
+            'data.attributes.password' => ['required', 'confirmed', Password::defaults()],
         ];
     }
 }
