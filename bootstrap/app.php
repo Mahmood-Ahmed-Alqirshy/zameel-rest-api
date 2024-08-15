@@ -5,6 +5,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -19,16 +21,27 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
+
         $exceptions->render(function (Throwable $exception, Request $request) {
+            $uuid = Str::uuid()->toString();
             $className = get_class($exception);
             $handlers = Handler::$handlers;
+
+            Log::error($exception->getMessage(), [
+                'id' => $uuid,
+                'message' => $exception->getMessage(),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
+                'trace' => $exception->getTraceAsString(),
+            ]);
 
             if (array_key_exists($className, $handlers)) {
                 $method = $handlers[$className];
 
-                return Handler::$method($exception, $request);
+                return Handler::$method($exception, $request, $uuid);
             }
 
-            return Handler::handleGenericException($exception, $request);
+            return Handler::handleGenericException($exception, $request, $uuid);
         });
+
     })->create();

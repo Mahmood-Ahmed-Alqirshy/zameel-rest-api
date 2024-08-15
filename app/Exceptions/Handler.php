@@ -5,12 +5,8 @@ namespace App\Exceptions;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
-use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -21,120 +17,69 @@ class Handler
         AuthenticationException::class => 'handleAuthenticationException',
         AuthorizationException::class => 'handleAuthorizationException',
         ValidationException::class => 'handleValidationException',
-        ModelNotFoundException::class => 'handleModelNotFoundException',
-        NotFoundHttpException::class => 'handleModelNotFoundException',
-        MethodNotAllowedHttpException::class => 'handleMethodNotAllowedException',
-        HttpException::class => 'handleHttpException',
-        QueryException::class => 'handleQueryException',
-        UniqueConstraintViolationException::class => 'handleUniqueConstraintViolationException',
+        ModelNotFoundException::class => 'handleNotFoundException',
+        NotFoundHttpException::class => 'handleNotFoundException',
     ];
 
-    public static function handleGenericException(Throwable $exception, Request $request)
+    public static function handleGenericException(Throwable $exception, Request $request, $uuid)
     {
-        $status = $exception->getCode() ?: 500;
-        //Ensures the HTTP status code is within the valid range of 100-599.
-        if ($status < 100 || $status >= 600) {
-            $status = 500;
-        }
-
         return response()->json([
             'error' => [
-                'type' => basename(get_class($exception)),
-                'status' => $status,
-                'message' => $exception->getMessage() ?: 'Internal Server Error',
+                'id' => $uuid,
+                'status' => 500,
+                'title' => 'Internal Server Error',
             ],
-        ], $status);
+        ], 500);
     }
 
-    public static function handleAuthenticationException(AuthenticationException $exception, Request $request)
+    public static function handleAuthenticationException(AuthenticationException $exception, Request $request, $uuid)
     {
         return response()->json([
             'error' => [
-                'type' => basename(get_class($exception)),
-                'status' => 403,
-                'message' => $exception->getMessage(),
-            ],
-        ], 403);
-    }
-
-    public static function handleAuthorizationException(AuthenticationException $exception, Request $request)
-    {
-        return response()->json([
-            'error' => [
-                'type' => basename(get_class($exception)),
+                'id' => $uuid,
                 'status' => 401,
-                'message' => $exception->getMessage(),
+                'title' => 'Unauthenticated',
             ],
         ], 401);
     }
 
-    public static function handleValidationException(ValidationException $exception, Request $request)
+    public static function handleAuthorizationException(AuthenticationException $exception, Request $request, $uuid)
+    {
+        return response()->json([
+            'error' => [
+                'id' => $uuid,
+                'status' => 403,
+                'title' => 'Forbidden',
+            ],
+        ], 403);
+    }
+
+    public static function handleValidationException(ValidationException $exception, Request $request, $uuid)
     {
         foreach ($exception->errors() as $key => $value) {
             foreach ($value as $message) {
                 $errors[] = [
-                    'type' => basename(get_class($exception)),
-                    'status' => 422,
-                    'message' => $message,
+                    $key => $message,
                 ];
             }
         }
 
-        return response()->json(['errors' => $errors], 422);
+        return response()->json([
+            'id' => $uuid,
+            'status' => 422,
+            'title' => 'Unprocessable Entity',
+            'errors' => $errors,
+        ], 422);
     }
 
-    public static function handleModelNotFoundException(ModelNotFoundException|NotFoundHttpException $exception, Request $request)
+    public static function handleNotFoundException(ModelNotFoundException|NotFoundHttpException $exception, Request $request, $uuid)
     {
         return response()->json([
             'error' => [
-                'type' => basename(get_class($exception)),
+                'id' => $uuid,
                 'status' => 404,
-                'message' => 'Not Found: '.$request->getRequestUri(),
+                'title' => 'Not Found',
             ],
         ], 404);
-    }
-
-    public static function handleMethodNotAllowed(MethodNotAllowedHttpException $exception, Request $request)
-    {
-        return response()->json([
-            'error' => [
-                'type' => basename(get_class($exception)),
-                'status' => 405,
-                'message' => 'Method Not Allowed',
-            ],
-        ], 405);
-    }
-
-    public static function handleHttpException(HttpException $exception, Request $request)
-    {
-        return response()->json([
-            'error' => [
-                'type' => basename(get_class($exception)),
-                'status' => $exception->getStatusCode(),
-                'message' => $exception->getMessage() ?: 'HTTP Error',
-            ],
-        ], $exception->getStatusCode());
-    }
-
-    public static function handleQueryException(QueryException $exception, Request $request)
-    {
-        return response()->json([
-            'error' => [
-                'type' => basename(get_class($exception)),
-                'status' => 500,
-                'message' => 'Database Query Error',
-            ],
-        ], 500);
-    }
-
-    public static function handleUniqueConstraintViolationException(UniqueConstraintViolationException $exception, Request $request)
-    {
-        return response()->json([
-            'error' => [
-                'type' => basename(get_class($exception)),
-                'status' => 500,
-                'message' => 'Email address already exists. Please try another one.',
-            ],
-        ], 500);
     }
 }
