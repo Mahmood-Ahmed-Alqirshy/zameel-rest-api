@@ -26,10 +26,6 @@ class DatabaseSeeder extends BaseSeeder
 
         Major::insert(CSV('majors'));
 
-        College::create([
-            'name' => "Test College without majors related to it",
-        ]);
-
         if (DB::connection()->getName() !== 'testing' && app()->environment('local')) {
             $this->call(FakeDataSeeder::class);
         }

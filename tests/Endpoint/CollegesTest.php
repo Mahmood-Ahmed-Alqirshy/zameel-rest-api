@@ -45,10 +45,11 @@ it('can retrieve single college', function () {
 });
 
 it('can delete college', function () {
-    deleteJson('/api/colleges/4', [], ['Authorization' => "Bearer $this->adminToken"])
+    $collegeWithoutMajorsId = College::query()->doesntHave('majors')->pluck('id')->first();
+    deleteJson("/api/colleges/{$collegeWithoutMajorsId}", [], ['Authorization' => "Bearer $this->adminToken"])
         ->assertOK();
 
-    expect(College::find(4))->toBeNull();
+    expect(College::find($collegeWithoutMajorsId))->toBeNull();
 });
 
 it("can't delete college that have majors", function () {
