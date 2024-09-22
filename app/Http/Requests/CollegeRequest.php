@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 class CollegeRequest extends BaseRequest
 {
     protected $map = [
-        'data.atttibutes.name' => 'model.name',
+        'data.attributes.name' => 'model.name',
     ];
 
     /**
@@ -15,11 +15,8 @@ class CollegeRequest extends BaseRequest
      */
     public function rules(): array
     {
-        $needID = $this->isMethod('PATCH');
-
         return [
-            'data.id' => ($needID ? 'required|' : 'missing|').'integer|numeric|exists:colleges,id',
-            'data.atttibutes.name' => 'required|string|max:45|regex:/^[\p{L}\p{M}\s]+$/u|unique:colleges',
+            'data.attributes.name' => 'required|string|max:45|regex:/^[\p{L}\p{M}\s]+$/u|unique:colleges,name',
         ];
     }
 }
