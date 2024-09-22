@@ -10,11 +10,11 @@ class CollegeResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-                    'type' => 'college',
-                    'id' => $this->id,
-                    'attributes' => [
-                        'name' => $this->name,
-                    ],
+            'type' => 'college',
+            'id' => $this->id,
+            'attributes' => [
+                'name' => $this->name,
+            ],
         ];
     }
 }

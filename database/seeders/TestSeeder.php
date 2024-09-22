@@ -53,7 +53,7 @@ class TestSeeder extends Seeder
         ]);
 
         College::create([
-            'name' => "Test College without majors related to it",
+            'name' => 'Test College without majors related to it',
         ]);
 
         Group::factory()->create();

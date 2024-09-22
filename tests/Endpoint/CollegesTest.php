@@ -144,16 +144,16 @@ it('prevents non-admin roles from performing CRUD operations on colleges', funct
     ];
 
     foreach ($nonAdminTokens as $tokenName) {
-        getJson('/api/colleges', ['Authorization' => 'Bearer ' . $this->$tokenName])
+        getJson('/api/colleges', ['Authorization' => 'Bearer '.$this->$tokenName])
             ->assertForbidden();
 
-        postJson('/api/colleges', $newCollege, ['Authorization' => 'Bearer ' . $this->$tokenName])
+        postJson('/api/colleges', $newCollege, ['Authorization' => 'Bearer '.$this->$tokenName])
             ->assertForbidden();
 
-        patchJson('/api/colleges/1', $updateData, ['Authorization' => 'Bearer ' . $this->$tokenName])
+        patchJson('/api/colleges/1', $updateData, ['Authorization' => 'Bearer '.$this->$tokenName])
             ->assertForbidden();
 
-        deleteJson('/api/colleges/1', [], ['Authorization' => 'Bearer ' . $this->$tokenName])
+        deleteJson('/api/colleges/1', [], ['Authorization' => 'Bearer '.$this->$tokenName])
             ->assertForbidden();
     }
 });
