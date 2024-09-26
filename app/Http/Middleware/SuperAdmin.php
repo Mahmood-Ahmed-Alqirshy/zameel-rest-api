@@ -4,9 +4,9 @@ namespace App\Http\Middleware;
 
 use App\Authorization\AuthorizationRole;
 use Closure;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\UnauthorizedException;
 use Symfony\Component\HttpFoundation\Response;
 
 class SuperAdmin
@@ -19,7 +19,7 @@ class SuperAdmin
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::user()->role_id !== AuthorizationRole::SUPERADMIN->id()) {
-            throw new UnauthorizedException('You are not authorized to access this endpoint.');
+            throw new AuthorizationException('You are not authorized to access this endpoint.');
         }
 
         return $next($request);

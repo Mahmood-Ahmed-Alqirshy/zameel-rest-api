@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -16,6 +17,7 @@ class Handler
     public static array $handlers = [
         AuthenticationException::class => 'handleAuthenticationException',
         AuthorizationException::class => 'handleAuthorizationException',
+        AccessDeniedHttpException::class => 'handleAuthorizationException',
         ValidationException::class => 'handleValidationException',
         ModelNotFoundException::class => 'handleNotFoundException',
         NotFoundHttpException::class => 'handleNotFoundException',
@@ -32,7 +34,7 @@ class Handler
         ], 500);
     }
 
-    public static function handleAuthenticationException(AuthenticationException $exception, Request $request, $uuid)
+    public static function handleAuthenticationException(Throwable $exception, Request $request, $uuid)
     {
         return response()->json([
             'error' => [
@@ -43,7 +45,7 @@ class Handler
         ], 401);
     }
 
-    public static function handleAuthorizationException(AuthenticationException $exception, Request $request, $uuid)
+    public static function handleAuthorizationException(Throwable $exception, Request $request, $uuid)
     {
         return response()->json([
             'error' => [
@@ -72,7 +74,7 @@ class Handler
         ], 422);
     }
 
-    public static function handleNotFoundException(ModelNotFoundException|NotFoundHttpException $exception, Request $request, $uuid)
+    public static function handleNotFoundException(Throwable $exception, Request $request, $uuid)
     {
         return response()->json([
             'error' => [

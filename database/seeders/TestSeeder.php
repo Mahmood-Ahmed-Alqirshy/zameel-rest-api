@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\College;
 use App\Models\Group;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -49,6 +50,10 @@ class TestSeeder extends Seeder
             'email' => 'student@example.com',
             'password' => Hash::make('password'),
             'role_id' => 5,
+        ]);
+
+        College::create([
+            'name' => 'Test College without majors related to it',
         ]);
 
         Group::factory()->create();
