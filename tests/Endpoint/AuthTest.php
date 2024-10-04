@@ -35,7 +35,7 @@ it('rejects incomplete credentials', function ($credentials) {
 })->with('incompleteCredentials');
 
 it('can logout', function () {
-    postJson('/api/logout', [], ['Authorization' => "Bearer $this->adminToken"])
+    postJson('/api/logout', [], ['Authorization' => "Bearer " . $this::$adminToken])
         ->assertOK();
 });
 
