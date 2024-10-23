@@ -11,10 +11,10 @@ dataset('updateColleges', function () {
                         'attributes' => [
                             'name' => 'Springfield College',
                         ],
-                    ]
+                    ],
                 ],
-                'target' => 'data.attributes.name'
-            ]
+                'target' => 'data.attributes.name',
+            ],
         ],
     ];
 });
