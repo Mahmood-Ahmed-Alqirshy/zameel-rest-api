@@ -14,10 +14,10 @@ class Post extends Model
 
     protected $fillable = [
         'publisher_id',
+        'subject_id',
         'taggable_id',
         'taggable_type',
         'content',
-        'has_attachment',
     ];
 
     protected $casts = [

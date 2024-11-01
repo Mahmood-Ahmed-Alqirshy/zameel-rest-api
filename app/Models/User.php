@@ -55,11 +55,6 @@ class User extends Authenticatable
             ->using(Apply::class);
     }
 
-    public function subjects(): BelongsToMany
-    {
-        return $this->belongsToMany(Subject::class);
-    }
-
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'publisher_id');

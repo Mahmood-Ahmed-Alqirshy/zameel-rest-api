@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('college_id')->constrained()->restrictOnDelete();
             $table->foreignId('degree_id')->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('years');
-            $table->timestamps();
         });
     }
 

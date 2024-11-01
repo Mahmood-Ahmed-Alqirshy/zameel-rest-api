@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('assignments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('publisher_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('subject_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->nullableMorphs('taggable');
-            $table->text('content')->nullable();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->dateTime('due_date');
+            $table->foreignId('subject_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('group_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('assignments');
     }
 };

@@ -11,6 +11,8 @@ class Subject extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'name',
     ];
@@ -18,16 +20,6 @@ class Subject extends Model
     protected $casts = [
         'id' => 'integer',
     ];
-
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
-    }
-
-    public function majors(): BelongsToMany
-    {
-        return $this->belongsToMany(Major::class);
-    }
 
     public function posts(): MorphMany
     {

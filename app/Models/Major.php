@@ -13,6 +13,8 @@ class Major extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'name',
         'college_id',
@@ -26,11 +28,6 @@ class Major extends Model
         'degree_id' => 'integer',
         'years' => 'integer',
     ];
-
-    public function subjects(): BelongsToMany
-    {
-        return $this->belongsToMany(Subject::class);
-    }
 
     public function groups(): HasMany
     {

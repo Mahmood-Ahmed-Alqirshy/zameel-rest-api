@@ -6,6 +6,7 @@ use App\Models\College;
 use App\Models\Group;
 use App\Models\Major;
 use App\Models\Post;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -25,10 +26,10 @@ class PostFactory extends Factory
 
         return [
             'publisher_id' => User::whereIn('role_id', [1, 2, 3, 4])->inRandomOrder()->first()->id,
+            'subject_id' => $taggableType === Group::class ? Subject::inRandomOrder()->first() : null,
             'taggable_id' => $taggableId,
             'taggable_type' => $taggableType,
             'content' => fake()->paragraph(),
-            'has_attachment' => fake()->boolean(),
         ];
     }
 }
