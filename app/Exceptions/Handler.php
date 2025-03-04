@@ -13,7 +13,7 @@ use Throwable;
 
 class Handler
 {
-    //Mapping of exception types to their corresponding exception handling methods.
+    // Mapping of exception types to their corresponding exception handling methods.
     public static array $handlers = [
         AuthenticationException::class => 'handleAuthenticationException',
         AuthorizationException::class => 'handleAuthorizationException',

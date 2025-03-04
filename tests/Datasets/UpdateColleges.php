@@ -6,14 +6,9 @@ dataset('updateColleges', function () {
             [
                 'model' => ['name' => 'ABC'],
                 'request' => [
-                    'data' => [
-                        'type' => 'college',
-                        'attributes' => [
-                            'name' => 'Springfield College',
-                        ],
-                    ],
+                    'name' => 'Springfield College',
                 ],
-                'target' => 'data.attributes.name',
+                'target' => 'name',
             ],
         ],
     ];

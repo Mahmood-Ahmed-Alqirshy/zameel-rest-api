@@ -66,7 +66,7 @@ expect()->extend('toBeProtectedAgainstUnauthenticated', function (array $except 
     }
 });
 
-expect()->extend('toBeProtectedAgainstRoles', function (array $roles = [], array $except = []) {
+expect()->extend('toBeProtectedAgainstRoles', function ($validSample, array $roles = [], array $except = []) {
     $nonAdminTokens = array_map(fn ($e) => $e.'Token', $roles);
 
     foreach ($nonAdminTokens as $tokenName) {
@@ -81,12 +81,12 @@ expect()->extend('toBeProtectedAgainstRoles', function (array $roles = [], array
         }
 
         if (! in_array('store', $except)) {
-            postJson($this->value, [], ['Authorization' => 'Bearer '.TestCase::$$tokenName])
+            postJson($this->value, $validSample, ['Authorization' => 'Bearer '.TestCase::$$tokenName])
                 ->assertForbidden();
         }
 
         if (! in_array('update', $except)) {
-            patchJson($this->value.'/1', [], ['Authorization' => 'Bearer '.TestCase::$$tokenName])
+            patchJson($this->value.'/1', $validSample, ['Authorization' => 'Bearer '.TestCase::$$tokenName])
                 ->assertForbidden();
         }
 
@@ -138,19 +138,19 @@ expect()->extend('toUpdate', function (string $class, $data) {
 
     $updatedResourceID = Arr::get($updatedResource, 'data.id');
 
-    expect(Arr::get($updatedResource, $data['target']))->toEqual(Arr::get($data['request'], $data['target']));
+    expect(Arr::get($updatedResource, 'data.'.$data['target']))->toEqual(Arr::get($data['request'], $data['target']));
 
     getJson($this->value."/$updatedResourceID", ['Authorization' => 'Bearer '.TestCase::$adminToken])
         ->assertExactJson($updatedResource);
 });
 
-expect()->extend('toNotOperateOnUnexistingResources', function (array $except = []) {
+expect()->extend('toNotOperateOnUnexistingResources', function ($validSample, array $except = []) {
     if (! in_array('show', $except)) {
         getJson($this->value.'/1000000000', ['Authorization' => 'Bearer '.TestCase::$adminToken])
             ->assertNotFound();
     }
     if (! in_array('update', $except)) {
-        patchJson($this->value.'/1000000000', [], ['Authorization' => 'Bearer '.TestCase::$adminToken])
+        patchJson($this->value.'/1000000000', $validSample, ['Authorization' => 'Bearer '.TestCase::$adminToken])
             ->assertNotFound();
     }
     if (! in_array('destroy', $except)) {
