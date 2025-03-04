@@ -2,25 +2,27 @@
 
 namespace App\Http\Requests;
 
-class MajorRequest extends BaseRequest
+use Orion\Http\Requests\Request;
+
+class MajorRequest extends Request
 {
-    protected $map = [
-        'data.attributes.name' => 'model.name',
-        'data.attributes.years' => 'model.years',
-        'data.relationships.college.data.id' => 'model.college_id',
-        'data.relationships.degree.data.id' => 'model.degree_id',
-    ];
-
-    public function rules(): array
+    public function storeRules(): array
     {
-        $requiredOrMissing = ($this->isMethod('patch') ? 'missing|' : 'required|');
-        $requiredOrSometimes = ($this->isMethod('patch') ? 'sometimes|' : 'required|');
-
         return [
-            'data.attributes.name' => $requiredOrMissing.'string|regex:/^[\\p{L}\\p{M}\\s]+$/u|max:45|unique:majors,name',
-            'data.attributes.years' => $requiredOrSometimes.'integer|between:1,8',
-            'data.relationships.college.data.id' => $requiredOrSometimes.'integer|numeric|exists:colleges,id',
-            'data.relationships.degree.data.id' => $requiredOrMissing.'integer|numeric|exists:degrees,id',
+            'name' => 'required|string|regex:/^[\\p{L}\\p{M}\\s]+$/u|max:45|unique:majors,name',
+            'years' => 'required|integer|between:1,8',
+            'college_id' => 'required|integer|numeric|exists:colleges,id',
+            'degree_id' => 'required|integer|numeric|exists:degrees,id',
+        ];
+    }
+
+    public function updateRules(): array
+    {
+        return [
+            'name' => 'sometimes|string|regex:/^[\\p{L}\\p{M}\\s]+$/u|max:45|unique:majors,name',
+            'years' => 'sometimes|integer|between:1,8',
+            'college_id' => 'sometimes|integer|numeric|exists:colleges,id',
+            'degree_id' => 'sometimes|integer|numeric|exists:degrees,id',
         ];
     }
 }

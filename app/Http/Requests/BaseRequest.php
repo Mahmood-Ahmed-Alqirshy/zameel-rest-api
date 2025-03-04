@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 
+// deprecated
 class BaseRequest extends FormRequest
 {
     protected $map = null;

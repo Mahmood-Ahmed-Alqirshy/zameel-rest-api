@@ -100,4 +100,8 @@ it("can't delete college that have majors", function () {
 
     deleteJson('/api/colleges/1', [], ['Authorization' => 'Bearer '.$this::$adminToken])
         ->assertUnprocessable();
+
+    $major = $college->majors()->first();
+    deleteJson('/api/majors/'.$major->id.'/college', [], ['Authorization' => 'Bearer '.$this::$adminToken])
+        ->assertUnprocessable();
 });

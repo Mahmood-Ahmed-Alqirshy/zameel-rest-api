@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class College extends Model
 {
@@ -27,5 +29,12 @@ class College extends Model
     public function posts(): MorphMany
     {
         return $this->morphMany(Post::class, 'taggable');
+    }
+
+    public function beforeDestroy(Request $request, $college)
+    {
+        if ($college->majors()->exists()) {
+            throw new UnprocessableEntityHttpException('Cannot delete college with majors');
+        }
     }
 }

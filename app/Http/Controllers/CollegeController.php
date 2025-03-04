@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CollegeRequest;
 use App\Models\College;
-// use App\Http\Requests\CollegeRequest;
 use App\Policies\CollegePolicy;
 use Illuminate\Http\Request;
 use Orion\Concerns\DisablePagination;
@@ -16,9 +15,7 @@ class CollegeController extends Controller
 
     public function beforeDestroy(Request $request, $college)
     {
-        if ($college->majors()->exists()) {
-            return response()->json('Cannot delete college with majors', 422);
-        }
+        $college->beforeDestroy($request, $college);
     }
 
     protected $model = College::class;

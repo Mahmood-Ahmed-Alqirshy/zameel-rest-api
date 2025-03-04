@@ -9,7 +9,7 @@ class CollegeRequest extends Request
     public function updateRules(): array
     {
         return [
-            'name' => 'string|max:45|regex:/^[\p{L}\p{M}\s]+$/u|unique:colleges,name',
+            'name' => 'sometimes|string|max:45|regex:/^[\p{L}\p{M}\s]+$/u|unique:colleges,name',
         ];
     }
 

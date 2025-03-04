@@ -3,47 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MajorRequest;
-use App\Http\Resources\MajorResource;
 use App\Models\Major;
+use App\Policies\MajorPolicy;
+use Orion\Concerns\DisablePagination;
+use Orion\Http\Controllers\Controller;
 
 class MajorController extends Controller
 {
-    public function index()
-    {
-        $majors = Major::all();
+    use DisablePagination;
 
-        return MajorResource::collection($majors);
-    }
+    protected $model = Major::class;
 
-    public function store(MajorRequest $request)
-    {
-        $data = $request->formattedData();
-        $major = Major::create($data['model']);
+    protected $policy = MajorPolicy::class;
 
-        return new MajorResource($major);
-    }
-
-    public function show(Major $major)
-    {
-        return new MajorResource($major);
-    }
-
-    public function update(MajorRequest $request, Major $major)
-    {
-        $data = $request->formattedData();
-        $major->update($data['model']);
-
-        return new MajorResource($major);
-    }
-
-    public function destroy(Major $major)
-    {
-        if ($major->groups()->exists() || $major->subjects()->exists()) {
-            return response()->json('Cannot delete this major', 422);
-        }
-
-        $major->delete();
-
-        return response()->json(null, 200);
-    }
+    protected $request = MajorRequest::class;
 }
