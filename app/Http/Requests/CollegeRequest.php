@@ -2,21 +2,21 @@
 
 namespace App\Http\Requests;
 
-class CollegeRequest extends BaseRequest
-{
-    protected $map = [
-        'data.attributes.name' => 'model.name',
-    ];
+use Orion\Http\Requests\Request;
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
-    public function rules(): array
+class CollegeRequest extends Request
+{
+    public function updateRules(): array
     {
         return [
-            'data.attributes.name' => 'required|string|max:45|regex:/^[\p{L}\p{M}\s]+$/u|unique:colleges,name',
+            'name' => 'sometimes|string|max:45|regex:/^[\p{L}\p{M}\s]+$/u|unique:colleges,name',
+        ];
+    }
+
+    public function storeRules(): array
+    {
+        return [
+            'name' => 'required|string|max:45|regex:/^[\p{L}\p{M}\s]+$/u|unique:colleges,name',
         ];
     }
 }

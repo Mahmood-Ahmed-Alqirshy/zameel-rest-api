@@ -14,26 +14,28 @@ beforeEach(function () {
     $this->singularName = Str::singular($this->pluralName);
     $this->endpoint = '/api/colleges';
     $this->except = [];
+    $this->authorizedActionsForAll = [...$this->except, 'show', 'index'];
     $this->unauthorizedRoles = ['manager', 'academic', 'representer', 'student'];
     $this->model = College::class;
+    $this->validSample = [
+        'name' => 'a College',
+    ];
     $this->indexStructure = [
         'data' => [
             '*' => [
-                'type',
                 'id',
-                'attributes' => [
-                    'name',
-                ],
+                'name',
+                'created_at',
+                'updated_at',
             ],
         ],
     ];
     $this->showStructure = [
         'data' => [
-            'type',
             'id',
-            'attributes' => [
-                'name',
-            ],
+            'name',
+            'created_at',
+            'updated_at',
         ],
     ];
 });
@@ -81,7 +83,7 @@ it("can't store invalid $singularName", function ($data) {
 })->with(Str::camel("invalid $pluralName"));
 
 it("can't operate on unexisting $singularName", function () {
-    expect($this->endpoint)->toNotOperateOnUnexistingResources($this->except);
+    expect($this->endpoint)->toNotOperateOnUnexistingResources($this->validSample, $this->except);
 });
 
 it("protect $pluralName endpoints", function () {
@@ -89,7 +91,7 @@ it("protect $pluralName endpoints", function () {
 });
 
 it("prevents some roles from performing CRUD operations on $pluralName", function () {
-    expect($this->endpoint)->toBeProtectedAgainstRoles($this->unauthorizedRoles, $this->except);
+    expect($this->endpoint)->toBeProtectedAgainstRoles($this->validSample, $this->unauthorizedRoles, $this->authorizedActionsForAll);
 });
 
 it("can't delete college that have majors", function () {
@@ -97,5 +99,9 @@ it("can't delete college that have majors", function () {
     Major::factory()->create(['college_id' => $college->id]);
 
     deleteJson('/api/colleges/1', [], ['Authorization' => 'Bearer '.$this::$adminToken])
+        ->assertUnprocessable();
+
+    $major = $college->majors()->first();
+    deleteJson('/api/majors/'.$major->id.'/college', [], ['Authorization' => 'Bearer '.$this::$adminToken])
         ->assertUnprocessable();
 });

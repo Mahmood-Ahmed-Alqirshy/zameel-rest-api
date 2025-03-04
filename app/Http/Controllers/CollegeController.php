@@ -3,47 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CollegeRequest;
-use App\Http\Resources\CollegeResource;
 use App\Models\College;
+use App\Policies\CollegePolicy;
+use Illuminate\Http\Request;
+use Orion\Concerns\DisablePagination;
+use Orion\Http\Controllers\Controller;
 
 class CollegeController extends Controller
 {
-    public function index()
-    {
-        $colleges = College::all();
+    use DisablePagination;
 
-        return CollegeResource::collection($colleges);
+    public function beforeDestroy(Request $request, $college)
+    {
+        $college->beforeDestroy($request, $college);
     }
 
-    public function store(CollegeRequest $request)
-    {
-        $data = $request->formattedData();
-        $college = College::create($data['model']);
+    protected $model = College::class;
 
-        return new CollegeResource($college);
-    }
+    protected $policy = CollegePolicy::class;
 
-    public function show(College $college)
-    {
-        return new CollegeResource($college);
-    }
-
-    public function update(CollegeRequest $request, College $college)
-    {
-        $data = $request->formattedData();
-        $college->update($data['model']);
-
-        return new CollegeResource($college);
-    }
-
-    public function destroy(College $college)
-    {
-        if ($college->majors()->exists()) {
-            return response()->json('Cannot delete college with majors', 422);
-        }
-
-        $college->delete();
-
-        return response()->json(null, 200);
-    }
+    protected $request = CollegeRequest::class;
 }

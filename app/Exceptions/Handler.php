@@ -9,11 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Throwable;
 
 class Handler
 {
-    //Mapping of exception types to their corresponding exception handling methods.
+    // Mapping of exception types to their corresponding exception handling methods.
     public static array $handlers = [
         AuthenticationException::class => 'handleAuthenticationException',
         AuthorizationException::class => 'handleAuthorizationException',
@@ -21,6 +22,7 @@ class Handler
         ValidationException::class => 'handleValidationException',
         ModelNotFoundException::class => 'handleNotFoundException',
         NotFoundHttpException::class => 'handleNotFoundException',
+        UnprocessableEntityHttpException::class => 'handleUnprocessableEntityHttpException',
     ];
 
     public static function handleGenericException(Throwable $exception, Request $request, $uuid)
@@ -83,5 +85,16 @@ class Handler
                 'title' => 'Not Found',
             ],
         ], 404);
+    }
+
+    public static function handleUnprocessableEntityHttpException(Throwable $exception, Request $request, $uuid)
+    {
+        return response()->json([
+            'error' => [
+                'id' => $uuid,
+                'status' => 422,
+                'title' => $exception->getMessage(),
+            ],
+        ], 422);
     }
 }
