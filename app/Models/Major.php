@@ -8,25 +8,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Major extends Model
 {
-    use HasFactory;
-
-    public $timestamps = false;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
         'college_id',
         'degree_id',
         'years',
-    ];
-
-    protected $casts = [
-        'id' => 'integer',
-        'college_id' => 'integer',
-        'degree_id' => 'integer',
-        'years' => 'integer',
     ];
 
     public function groups(): HasMany

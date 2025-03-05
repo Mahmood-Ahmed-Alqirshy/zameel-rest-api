@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->year('join_year');
+            $table->char('division', 1)->default('A');
             $table->foreignId('major_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

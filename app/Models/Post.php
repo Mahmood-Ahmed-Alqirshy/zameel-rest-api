@@ -20,13 +20,6 @@ class Post extends Model
         'content',
     ];
 
-    protected $casts = [
-        'id' => 'integer',
-        'publisher_id' => 'integer',
-        'taggable_id' => 'integer',
-        'has_attachment' => 'boolean',
-    ];
-
     public function files(): HasMany
     {
         return $this->hasMany(File::class);
@@ -39,6 +32,6 @@ class Post extends Model
 
     public function publisher(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'publisher_id');
+        return $this->belongsTo(User::class);
     }
 }

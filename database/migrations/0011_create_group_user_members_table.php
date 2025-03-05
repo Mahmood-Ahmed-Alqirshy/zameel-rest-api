@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('group_user_members', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('group_id')->constrained()->cascadeOnDelete();
-            $table->boolean('isRepresenter');
+            $table->boolean('is_representer');
             $table->timestamps();
+            $table->primary(['user_id', 'group_id']);
         });
     }
 

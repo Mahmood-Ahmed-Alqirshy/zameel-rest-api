@@ -18,15 +18,12 @@ class Role extends Model
         'name',
     ];
 
-    protected $casts = [
-        'id' => 'integer',
-    ];
-
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
     }
 
+    // deprecated
     public function abilities()
     {
         return Abilities::getAbilities(AuthorizationRole::from($this->id));

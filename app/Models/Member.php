@@ -15,24 +15,11 @@ class Member extends Pivot
     protected $fillable = [
         'group_id',
         'user_id',
-        'status_id',
-        'isRepresenter',
+        'is_representer',
     ];
 
     protected $casts = [
-        'id' => 'integer',
-        'group_id' => 'integer',
-        'user_id' => 'integer',
-        'isRepresenter' => 'boolean',
+        'is_representer' => 'boolean',
     ];
 
-    public function group(): BelongsTo
-    {
-        return $this->belongsTo(Group::class);
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 }

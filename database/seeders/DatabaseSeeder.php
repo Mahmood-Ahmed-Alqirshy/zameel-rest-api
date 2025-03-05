@@ -14,13 +14,7 @@ class DatabaseSeeder extends BaseSeeder
 {
     public function run(): void
     {
-        Role::insert($this->roles);
-
-        Status::insert($this->statuses);
-
         College::insert($this->colleges);
-
-        Degree::insert($this->degrees);
 
         Subject::insert(CSV('subjects'));
 

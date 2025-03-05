@@ -16,10 +16,6 @@ class File extends Model
         'post_id',
     ];
 
-    protected $casts = [
-        'id' => 'integer',
-        'post_id' => 'integer',
-    ];
 
     public function post(): BelongsTo
     {

@@ -16,10 +16,6 @@ class Degree extends Model
         'name',
     ];
 
-    protected $casts = [
-        'id' => 'integer',
-    ];
-
     public function majors(): HasMany
     {
         return $this->hasMany(Major::class);

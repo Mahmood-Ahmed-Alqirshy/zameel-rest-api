@@ -26,12 +26,11 @@ class User extends Authenticatable
 
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     protected $casts = [
-        'id' => 'integer',
-        'group_id' => 'integer',
-        'role_id' => 'integer',
+        'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 
@@ -46,7 +45,8 @@ class User extends Authenticatable
 
     public function group(): belongsToMany
     {
-        return $this->belongsToMany(Group::class, 'group_user_members');
+        return $this->belongsToMany(Group::class, 'group_user_members')
+        ->using(Member::class);
     }
 
     public function applies(): BelongsToMany
@@ -54,12 +54,18 @@ class User extends Authenticatable
         return $this->belongsToMany(Group::class, 'group_user_applies')
             ->using(Apply::class);
     }
-
+    
     public function posts(): HasMany
     {
-        return $this->hasMany(Post::class, 'publisher_id');
+        return $this->hasMany(Post::class);
+    }
+    
+    public function assignments(): BelongsToMany
+    {
+        return $this->belongsToMany(Assignment::class)->using(Delivery::class);
     }
 
+    // deprecated
     public function abilities()
     {
         return Abilities::getAbilities(AuthorizationRole::from($this->role_id));

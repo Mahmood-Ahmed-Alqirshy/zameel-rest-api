@@ -19,23 +19,6 @@ class Apply extends Pivot
         'note',
     ];
 
-    protected $casts = [
-        'id' => 'integer',
-        'group_id' => 'integer',
-        'user_id' => 'integer',
-        'status_id' => 'integer',
-    ];
-
-    public function group(): BelongsTo
-    {
-        return $this->belongsTo(Group::class);
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function status(): BelongsTo
     {
         return $this->belongsTo(Status::class);

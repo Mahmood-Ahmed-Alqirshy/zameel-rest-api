@@ -14,15 +14,10 @@ class Group extends Model
 
     protected $fillable = [
         'join_year',
+        'division',
         'major_id',
-        'representer_id',
     ];
 
-    protected $casts = [
-        'id' => 'integer',
-        'major_id' => 'integer',
-        'representer_id' => 'integer',
-    ];
 
     public function applies(): BelongsToMany
     {
@@ -33,7 +28,7 @@ class Group extends Model
     public function members(): belongsToMany
     {
         return $this->belongsToMany(User::class, 'group_user_members')
-            ->using(Apply::class);
+            ->using(Member::class);
     }
 
     public function major(): BelongsTo

@@ -6,21 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class College extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    public $timestamps = false;
 
     protected $fillable = [
         'name',
-    ];
-
-    protected $casts = [
-        'id' => 'integer',
     ];
 
     public function majors(): HasMany
@@ -35,7 +31,9 @@ class College extends Model
 
     public function beforeDestroy(Request $request, $college)
     {
-        if ($college->majors()->exists()) {
+        $date = $request->validate(['force' => 'sometimes|boolean']);
+        $isForceDelete = ($date['force'] ?? 'false') === 'true';
+        if ($isForceDelete && $college->majors()->exists()) {
             throw new UnprocessableEntityHttpException('Cannot delete college with majors');
         }
     }

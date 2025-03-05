@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('file_id')->constrained()->cascadeOnDelete();
+            $table->text('path');
             $table->foreignId('subject_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('group_id')->nullable()->constrained()->nullOnDelete();
             $table->boolean('is_practical');

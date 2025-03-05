@@ -27,6 +27,7 @@ beforeEach(function () {
                 'name',
                 'created_at',
                 'updated_at',
+                'deleted_at'
             ],
         ],
     ];
@@ -36,6 +37,7 @@ beforeEach(function () {
             'name',
             'created_at',
             'updated_at',
+            'deleted_at',
         ],
     ];
 });
@@ -94,14 +96,27 @@ it("prevents some roles from performing CRUD operations on $pluralName", functio
     expect($this->endpoint)->toBeProtectedAgainstRoles($this->validSample, $this->unauthorizedRoles, $this->authorizedActionsForAll);
 });
 
-it("can't delete college that have majors", function () {
+it("can't force delete college that have majors", function () {
     $college = College::find(1);
     Major::factory()->create(['college_id' => $college->id]);
 
-    deleteJson('/api/colleges/1', [], ['Authorization' => 'Bearer '.$this::$adminToken])
+    deleteJson('/api/colleges/1?force=true', [], ['Authorization' => 'Bearer '.$this::$adminToken])
         ->assertUnprocessable();
 
     $major = $college->majors()->first();
-    deleteJson('/api/majors/'.$major->id.'/college', [], ['Authorization' => 'Bearer '.$this::$adminToken])
+    deleteJson('/api/majors/'.$major->id.'/college?force=true', [], ['Authorization' => 'Bearer '.$this::$adminToken])
         ->assertUnprocessable();
+});
+
+
+it("can soft delete college that have majors", function () {
+    $college = College::find(2);
+    Major::factory()->create(['college_id' => $college->id]);
+
+    deleteJson('/api/colleges/1', [], ['Authorization' => 'Bearer '.$this::$adminToken])
+        ->assertOK();
+
+    $major = $college->majors()->first();
+    deleteJson('/api/majors/'.$major->id.'/college', [], ['Authorization' => 'Bearer '.$this::$adminToken])
+        ->assertOK();
 });
