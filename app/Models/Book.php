@@ -25,21 +25,23 @@ class Book extends Model
         'is_practical' => 'boolean',
     ];
 
-    public function group() : BelongsTo
+    public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class);
     }
 
-    public function subject() : BelongsTo
+    public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class);
     }
 
-    public function quizzes() : HasMany {
+    public function quizzes(): HasMany
+    {
         return $this->hasMany(Quiz::class);
     }
 
-    public function summaries() : HasMany {
+    public function summaries(): HasMany
+    {
         return $this->hasMany(Quiz::class);
     }
 }

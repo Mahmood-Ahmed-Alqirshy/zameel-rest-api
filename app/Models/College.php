@@ -14,7 +14,6 @@ class College extends Model
 {
     use HasFactory, SoftDeletes;
 
-
     protected $fillable = [
         'name',
     ];

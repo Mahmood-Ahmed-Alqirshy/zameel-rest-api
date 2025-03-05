@@ -5,10 +5,8 @@ namespace Database\Seeders;
 use App\Models\Apply;
 use App\Models\File;
 use App\Models\Group;
-use App\Models\Major;
 use App\Models\Member;
 use App\Models\Post;
-use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 

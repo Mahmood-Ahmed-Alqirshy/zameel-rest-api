@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //make model for this
+        // make model for this
         Schema::create('academic_group_subject', function (Blueprint $table) {
             $table->foreignId('academic_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('group_id')->constrained()->cascadeOnDelete();

@@ -18,7 +18,6 @@ class Group extends Model
         'major_id',
     ];
 
-
     public function applies(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'group_user_applies')

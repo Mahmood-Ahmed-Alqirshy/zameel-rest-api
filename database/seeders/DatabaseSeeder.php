@@ -3,10 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\College;
-use App\Models\Degree;
 use App\Models\Major;
-use App\Models\Role;
-use App\Models\Status;
 use App\Models\Subject;
 use Illuminate\Support\Facades\DB;
 

@@ -27,7 +27,7 @@ beforeEach(function () {
                 'name',
                 'created_at',
                 'updated_at',
-                'deleted_at'
+                'deleted_at',
             ],
         ],
     ];
@@ -108,8 +108,7 @@ it("can't force delete college that have majors", function () {
         ->assertUnprocessable();
 });
 
-
-it("can soft delete college that have majors", function () {
+it('can soft delete college that have majors', function () {
     $college = College::find(2);
     Major::factory()->create(['college_id' => $college->id]);
 

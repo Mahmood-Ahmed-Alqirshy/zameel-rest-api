@@ -20,20 +20,20 @@ class Assignment extends Model
     ];
 
     protected $casts = [
-        'due_date' => 'datetime'
+        'due_date' => 'datetime',
     ];
 
-    public function group() : BelongsTo
+    public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class);
     }
 
-    public function subject() : BelongsTo
+    public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class);
     }
 
-    public function students() : BelongsToMany
+    public function students(): BelongsToMany
     {
         return $this->belongsToMany(User::class)->using(Delivery::class);
     }

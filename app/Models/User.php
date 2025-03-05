@@ -46,7 +46,7 @@ class User extends Authenticatable
     public function group(): belongsToMany
     {
         return $this->belongsToMany(Group::class, 'group_user_members')
-        ->using(Member::class);
+            ->using(Member::class);
     }
 
     public function applies(): BelongsToMany
@@ -54,12 +54,12 @@ class User extends Authenticatable
         return $this->belongsToMany(Group::class, 'group_user_applies')
             ->using(Apply::class);
     }
-    
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
-    
+
     public function assignments(): BelongsToMany
     {
         return $this->belongsToMany(Assignment::class)->using(Delivery::class);

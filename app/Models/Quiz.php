@@ -9,14 +9,15 @@ class Quiz extends Model
 {
     protected $fillable = [
         'content',
-        'book_id'
+        'book_id',
     ];
 
     protected $casts = [
         'content' => 'array',
     ];
 
-    public function book(): BelongsTo {
+    public function book(): BelongsTo
+    {
         return $this->belongsTo(Book::class);
     }
 }

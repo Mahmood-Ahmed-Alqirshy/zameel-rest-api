@@ -19,12 +19,12 @@ class Delivery extends Pivot
         'student_id',
     ];
 
-    public function assignment() : BelongsTo
+    public function assignment(): BelongsTo
     {
         return $this->belongsTo(Assignment::class);
     }
 
-    public function student() : BelongsTo
+    public function student(): BelongsTo
     {
         return $this->belongsTo(User::class, 'student_id');
     }
