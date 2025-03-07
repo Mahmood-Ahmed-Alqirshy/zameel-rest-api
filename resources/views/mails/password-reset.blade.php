@@ -1,39 +1,161 @@
 <mail::message>
-  <!DOCTYPE html>
-  <html lang="ar">
+  <!doctype html>
+  <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>زميل | تأكيد إعادة تعيين كلمة المرور</title>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap');
+    <title>
+    </title>
+    <!--[if !mso]><!-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+      #outlook a {
+        padding: 0;
+      }
 
-      * {
-        font-family: 'Alexandria', sans-serif;
+      body {
+        margin: 0;
+        padding: 0;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+
+      table,
+      td {
+        border-collapse: collapse;
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+      }
+
+      img {
+        border: 0;
+        height: auto;
+        line-height: 100%;
+        outline: none;
+        text-decoration: none;
+        -ms-interpolation-mode: bicubic;
+      }
+
+      p {
+        display: block;
+        margin: 13px 0;
+      }
+    </style>
+    <!--[if mso]>
+        <noscript>
+        <xml>
+        <o:OfficeDocumentSettings>
+          <o:AllowPNG/>
+          <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+        </xml>
+        </noscript>
+        <![endif]-->
+    <!--[if lte mso 11]>
+        <style type="text/css">
+          .mj-outlook-group-fix { width:100% !important; }
+        </style>
+        <![endif]-->
+    <!--[if !mso]><!-->
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700" rel="stylesheet" type="text/css">
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700);
+    </style>
+    <!--<![endif]-->
+    <style type="text/css">
+      @media only screen and (min-width:480px) {
+        .mj-column-per-100 {
+          width: 100% !important;
+          max-width: 100%;
+        }
+      }
+    </style>
+    <style media="screen and (min-width:480px)">
+      .moz-text-html .mj-column-per-100 {
+        width: 100% !important;
+        max-width: 100%;
+      }
+    </style>
+    <style type="text/css">
+      @media only screen and (max-width:480px) {
+        table.mj-full-width-mobile {
+          width: 100% !important;
+        }
+
+        td.mj-full-width-mobile {
+          width: auto !important;
+        }
       }
     </style>
   </head>
 
-  <body class="p-10 grid place-items-center bg-indigo-50/25 dir=" rtl">
-    <h1 class="font-bold mb-5 text-xl text-center text-indigo-950">تأكيد إعادة تعيين كلمة المرور</h1>
-    <div class="w-1/2 md:w-1/8">
-      <svg class="fill-indigo-500" viewBox="0 0 903.2 489.79">
-        <defs></defs>
-        <g>
-          <path d="M770.51 455.54c-4.62-2.25-11.47-7.67-11.05-10.81.77-5.86 4.82-13.19 9.77-16.28 27.51-17.14 55.96-32.78 83.52-49.83 9.49-5.87 18.15-13.61 25.77-21.82 11.51-12.39 12.9-24.21 2.18-37.45-10.88-13.45-23.87-25.53-37.33-36.48-25.13-20.45-21.16-14.6-9.98-41.28 6.05-14.43 12.77-28.57 19.47-42.72 4.93-10.42 10.9-10.76 17.26-.98 7.93 12.18 14.36 24.9 19.33 38.15 6.56 17.52 8.65 29.11 11.09 46.19 1.77 12.36 3.24 28.91 2.43 48.55 0 .17-.02.35-.05.52-1.16 7.75-1.5 15.74-3.68 23.19-9.84 33.65-19.47 67.39-30.78 100.56-4.25 12.47-7.48 26.84-21.15 34.17-1.35.73-2.98.74-4.37.1-24.17-11.2-48.47-22.12-72.42-33.78z" />
-          <path opacity="50%" d="M876.63.92c-1 11.63-5.61 21.68-15.8 27.64-26.92 15.75-54.22 30.83-82.63 46.89.01-15.38 7.44-23.81 18.57-29.97 23.18-12.83 46.35-25.68 69.44-38.67 3.18-1.79 5.8-4.57 8.73-6.81l1.69.92z" />
-          <path d="M772.49 215.48c-19.93-32.73-70.71-49.77-96.46-.56-8.09 15.48-16.74 30.7-23.77 46.69-11.43 25.8-29.39 40.11-58.68 37.53-6.53-.61-13.15-.1-19.68-.56-19.47-1.37-28.63-9.26-31.06-28.63-1.67-12.9-1.47-26.05-2.12-39.1-.04-.02-.07-.04-.11-.06-1.65-.9-3.7-.33-4.72 1.25-2.56 3.98-5.35 7.87-6.91 12.21-3.79 10.57-6.58 21.55-9.71 32.32-2.38 8.14-7.18 12.09-16.14 13.56-54.88 9.21-110.12 13-165.61 10.27-21.7-1.06-43.6-4.1-64.64-9.31-22.41-5.56-29.84-17.96-29.84-40.82V45.78c0-1.71-2.07-2.57-3.28-1.36-11.77 11.9-42.62 54.4-46.7 77.41-1.79 10.09-2.36 20.65-1.46 31.78 4.21 51.52 6.24 103.19 9.23 154.76.84 14.42-8.12 27.71-21.91 32.01-28.76 8.97-58.3 12.29-88.33 10.55-49.17-2.88-73.5-32.93-66.97-82.04 1.11-8.25 3.09-16.49 3.59-24.79.07-1.24-1.86-6.74-4.09-7.43-2.79-.86-6.06 7.79-6.48 9.12C5 281.61-3.34 313.41 1.31 351.7c5.11 41.88 27.67 72.59 64.24 80.83 48.81 11.03 94.23.71 134.7-28.38 6.93-5.01 11.18-14.92 14.47-23.42 3.33-8.7 4.59-18.16 6.83-28.72.29-1.38 1.93-1.97 3.04-1.11 18.63 14.38 38.43 22.23 59.68 25.38 68.59 10.22 136.77 4.05 204.6-7.18 3.84-.61 8.09-5.72 10.02-9.76 4.75-10.07 8.25-20.64 12.39-31.36 1.62 1.21 2.33 1.57 2.68 2.12.61.91 1.11 1.92 1.37 2.93 6.32 25.75 22.56 41.27 48.56 45.52 28.22 4.6 52.55-1.37 66.87-29.03 3.54-6.78 7.23-5.66 13.15-3.39 23.64 9.02 47.29 18.23 71.37 26 19.23 6.2 40.18-1.88 50.14-19.47 4.05-7.14 8.08-14.35 11.17-21.96 15.83-38.95 18.82-77.64-4.1-115.23zm-103.16 47.64c-1.13-.59-1.39-2.11-.53-3.05 11.2-12.18 21.49-14.79 26.5-15.56 26.44-3.92 58.95 22.17 74.72 67.74.57 1.66-1.18 3.17-2.74 2.36-32.65-17.14-65.3-34.31-97.95-51.49z" />
-          <path opacity="50%" d="M642.49 480.97c1.13-13.58 5.8-22.5 15.2-27.84 27.46-15.62 55.19-30.74 84.18-46.81-2.02 12.31-6.42 21.88-16.2 27.56-27.03 15.69-54.38 30.84-83.18 47.1z" />
-          <path d="M451.78 430.46l29.16-29.5a6.537 6.537 0 019.27-.03l25.01 25.01a6.536 6.536 0 009.24 0l25.04-25.04a6.536 6.536 0 019.24 0l29.52 29.52a6.537 6.537 0 01-.03 9.27l-29.5 29.16a6.528 6.528 0 01-9.21-.03l-25.07-25.07a6.536 6.536 0 00-9.24 0l-25.04 25.04a6.536 6.536 0 01-9.24 0l-29.13-29.13a6.537 6.537 0 01-.03-9.21z" />
-          <rect x="827.47" y="99.14" width="62.73" height="62.73" rx="6.53" ry="6.53" transform="rotate(-45 858.847 130.504)" />
-        </g>
-      </svg>
+  <body style="word-spacing:normal;">
+    <div style="">
+      <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div style="margin:0px auto;max-width:600px;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+          <tbody>
+            <tr>
+              <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
+                <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                  <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                    <tbody>
+                      <tr>
+                        <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                            <tbody>
+                              <tr>
+                                <td style="width:100px;">
+                                  <img height="auto" src="{{ asset('imgs/logo.png') }}" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="100" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                          <p style="border-top:solid 3px #4f39f6;font-size:1px;margin:0px auto;width:100%;">
+                          </p>
+                          <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 3px #4f39f6;font-size:1px;margin:0px auto;width:550px;" role="presentation" width="550px" ><tr><td style="height:0;line-height:0;"> &nbsp;
+</td></tr></table><![endif]-->
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" style="font-size:0px;padding:10px 25px;padding-top:50px;word-break:break-word;">
+                          <div style="font-family:arial;font-size:20px;line-height:30px;text-align:center;color:#000000;">قم بتأكيد إعادة تعيين كلمة مرور حسابك في زميل عبر الضغط على الرابط أدناه</div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" vertical-align="middle" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
+                            <tr>
+                              <td align="center" bgcolor="#4f39f6" role="presentation" style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;background:#4f39f6;" valign="middle">
+                                <a href="{{ $link }}" style="display:inline-block;background:#4f39f6;color:#ffffff;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:20px;font-weight:bolder;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;" target="_blank"> رابط التأكيد </a>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                          <div style="font-family:arial;font-size:20px;line-height:30px;text-align:center;color:#000000;">لا تقم بمشاركة الرابط مع أحد</div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!--[if mso | IE]></td></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--[if mso | IE]></td></tr></table><![endif]-->
     </div>
-    <p class="mt-20 text-center text-lg">قم بتأكيد إعادة تعيين كلمة مرور حسابك في زميل عبر الضغط على الرابط أدناه</p>
-    <a href="{{ $link }}" class="px-6 py-4 font-bold text-xl tracking-wider text-white bg-indigo-500 m-10 rounded-lg">رابط التأكيد</a>
-    <p class="text-center text-lg">لا تقم بمشاركة الرابط مع أحد</p>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
   </body>
 
   </html>
