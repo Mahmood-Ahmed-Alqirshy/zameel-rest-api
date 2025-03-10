@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 use function Pest\Laravel\deleteJson;
@@ -18,6 +17,7 @@ use function Pest\Laravel\getJson;
 
 use function Pest\Laravel\patchJson;
 use function Pest\Laravel\postJson;
+use function Pest\Laravel\putJson;
 
 uses(
     Tests\TestCase::class,
@@ -39,123 +39,271 @@ expect()->extend('toBeOne', function () {
     return $this->toBe(1);
 });
 
-expect()->extend('toBeProtectedAgainstUnauthenticated', function (array $except = []) {
-    if (! in_array('index', $except)) {
+expect()->extend('toBeProtectedAgainstUnauthenticated', function ($testCase) {
+    if (! in_array('index', $testCase->authenticateAllExcept)) {
         getJson($this->value)
             ->assertUnauthorized();
     }
 
-    if (! in_array('show', $except)) {
+    if (! in_array('search', $testCase->authenticateAllExcept)) {
+        patchJson($this->value.'/search')
+            ->assertUnauthorized();
+    }
+
+    if (! in_array('show', $testCase->authenticateAllExcept)) {
         getJson($this->value.'/1')
             ->assertUnauthorized();
     }
 
-    if (! in_array('destroy', $except)) {
+    if (! in_array('destroy', $testCase->authenticateAllExcept)) {
         deleteJson($this->value.'/1')
             ->assertUnauthorized();
     }
 
-    if (! in_array('store', $except)) {
+    if (! in_array('store', $testCase->authenticateAllExcept)) {
         postJson($this->value)
             ->assertUnauthorized();
     }
 
-    if (! in_array('update', $except)) {
+    if (! in_array('update', $testCase->authenticateAllExcept)) {
         patchJson($this->value.'/1')
             ->assertUnauthorized();
     }
-});
 
-expect()->extend('toBeProtectedAgainstRoles', function ($validSample, array $roles = [], array $except = []) {
-    $nonAdminTokens = array_map(fn ($e) => $e.'Token', $roles);
-
-    foreach ($nonAdminTokens as $tokenName) {
-        if (! in_array('index', $except)) {
-            getJson($this->value, ['Authorization' => 'Bearer '.TestCase::$$tokenName])
-                ->assertForbidden();
+    if ($testCase->softDelete) {
+        if (! in_array('restore', $testCase->authenticateAllExcept)) {
+            postJson($this->value.'/1/restore')
+                ->assertUnauthorized();
         }
 
-        if (! in_array('show', $except)) {
-            getJson($this->value.'/1', ['Authorization' => 'Bearer '.TestCase::$$tokenName])
-                ->assertForbidden();
+        if (! in_array('force', $testCase->authenticateAllExcept)) {
+            deleteJson($this->value.'/1?force=true')
+                ->assertUnauthorized();
+        }
+    }
+
+    if ($testCase->relationship === 'OneToMany') {
+        if (! in_array('associate', $testCase->authenticateAllExcept)) {
+            postJson($this->value.'/associate')
+                ->assertUnauthorized();
         }
 
-        if (! in_array('store', $except)) {
-            postJson($this->value, $validSample, ['Authorization' => 'Bearer '.TestCase::$$tokenName])
-                ->assertForbidden();
+        if (! in_array('dissociate', $testCase->authenticateAllExcept)) {
+            deleteJson($this->value.'/1/dissociate')
+                ->assertUnauthorized();
+        }
+    }
+
+    if ($testCase->relationship === 'ManyToMany') {
+        if (! in_array('attach', $testCase->authenticateAllExcept)) {
+            postJson($this->value.'/attach')
+                ->assertUnauthorized();
         }
 
-        if (! in_array('update', $except)) {
-            patchJson($this->value.'/1', $validSample, ['Authorization' => 'Bearer '.TestCase::$$tokenName])
-                ->assertForbidden();
+        if (! in_array('detach', $testCase->authenticateAllExcept)) {
+            deleteJson($this->value.'/detach')
+                ->assertUnauthorized();
         }
 
-        if (! in_array('destroy', $except)) {
-            deleteJson($this->value.'/1', [], ['Authorization' => 'Bearer '.TestCase::$$tokenName])
-                ->assertForbidden();
+        if (! in_array('sync', $testCase->authenticateAllExcept)) {
+            patchJson($this->value.'/sync')
+                ->assertUnauthorized();
+        }
+
+        if (! in_array('toggle', $testCase->authenticateAllExcept)) {
+            patchJson($this->value.'/toggle')
+                ->assertUnauthorized();
+        }
+
+        if (! in_array('pivot', $testCase->authenticateAllExcept)) {
+            patchJson($this->value.'/1/pivot')
+                ->assertUnauthorized();
         }
     }
 });
 
-expect()->extend('indexToHaveExactJsonStructure', function (string $model, array $structure) {
-    getJson($this->value, ['Authorization' => 'Bearer '.TestCase::$adminToken])
-        ->assertOK()
-        ->assertJsonCount($model::count(), 'data')
-        ->assertExactJsonStructure($structure);
-});
+expect()->extend('toBeProtectedAgainstRoles', function ($testCase, $role) {
+    $tokenName = $role.'Token';
+    $isActionRoleAuthorize = function ($action) use ($role, $testCase) {
+        return ! empty(array_intersect(['*', $role], $testCase->authorize[$action]['allow']));
+    };
 
-expect()->extend('showToHaveExactJsonStructure', function (array $structure) {
-    getJson($this->value.'/1', ['Authorization' => 'Bearer '.TestCase::$adminToken])
-        ->assertOK()
-        ->assertExactJsonStructure($structure);
-});
-
-expect()->extend('toDelete', function (string $model, $query = null) {
-    $resource = $query ?? $model::first();
-    deleteJson($this->value."/{$resource->id}", [], ['Authorization' => 'Bearer '.TestCase::$adminToken])
-        ->assertOK();
-
-    expect($model::find($resource->id))->toBeNull();
-});
-
-expect()->extend('toStore', function ($data) {
-    $response = postJson($this->value, $data, ['Authorization' => 'Bearer '.TestCase::$adminToken])
-        ->assertCreated();
-
-    $createdResource = $response->json();
-    $createdResourceID = Arr::get($createdResource, 'data.id');
-
-    getJson($this->value."/$createdResourceID", ['Authorization' => 'Bearer '.TestCase::$adminToken])
-        ->assertExactJson($createdResource);
-});
-
-expect()->extend('toUpdate', function (string $class, $data) {
-    $resource = $class::create($data['model']);
-    $response = patchJson($this->value."/$resource->id", $data['request'], ['Authorization' => 'Bearer '.TestCase::$adminToken])
-        ->assertOK();
-
-    $updatedResource = $response->json();
-
-    $updatedResourceID = Arr::get($updatedResource, 'data.id');
-
-    expect(Arr::get($updatedResource, 'data.'.$data['target']))->toEqual(Arr::get($data['request'], $data['target']));
-
-    getJson($this->value."/$updatedResourceID", ['Authorization' => 'Bearer '.TestCase::$adminToken])
-        ->assertExactJson($updatedResource);
-});
-
-expect()->extend('toNotOperateOnUnexistingResources', function ($validSample, array $except = []) {
-    if (! in_array('show', $except)) {
-        getJson($this->value.'/1000000000', ['Authorization' => 'Bearer '.TestCase::$adminToken])
-            ->assertNotFound();
+    $isAuthorize = $isActionRoleAuthorize('index');
+    $request = getJson($this->value, ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+    if ($isAuthorize) {
+        $request->assertOk();
+    } else {
+        $request->assertForbidden();
     }
-    if (! in_array('update', $except)) {
-        patchJson($this->value.'/1000000000', $validSample, ['Authorization' => 'Bearer '.TestCase::$adminToken])
-            ->assertNotFound();
+
+    $isAuthorize = $isActionRoleAuthorize('search');
+    $request = getJson($this->value, ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+    if ($isAuthorize) {
+        $request->assertOk();
+    } else {
+        $request->assertForbidden();
     }
-    if (! in_array('destroy', $except)) {
-        deleteJson($this->value.'/1000000000', [], ['Authorization' => 'Bearer '.TestCase::$adminToken])
-            ->assertNotFound();
+
+    $isAuthorize = $isActionRoleAuthorize('show');
+    $request = getJson($this->value.'/1', ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+    if ($isAuthorize) {
+        $request->assertOk();
+    } else {
+        $request->assertForbidden();
+    }
+
+    $isAuthorize = $isActionRoleAuthorize('destroy');
+    $model = $testCase->model::create(call_user_func($testCase->validSample));
+    $request = deleteJson($this->value.'/'.$model->id, [], ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+    if ($isAuthorize) {
+        $request->assertOk();
+    } else {
+        $request->assertForbidden();
+    }
+
+    $isAuthorize = $isActionRoleAuthorize('store');
+    $request = postJson($this->value, call_user_func($testCase->validSample), ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+    if ($isAuthorize) {
+        $request->assertCreated();
+    } else {
+        $request->assertForbidden();
+    }
+
+    $isAuthorize = $isActionRoleAuthorize('update');
+    $request = putJson($this->value.'/1', call_user_func($testCase->validSample), ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+    if ($isAuthorize) {
+        $request->assertOk();
+    } else {
+        $request->assertForbidden();
+    }
+
+    if ($testCase->softDelete) {
+        $isAuthorize = $isActionRoleAuthorize('restore');
+        $request = postJson($this->value.'/'.$model->id.'/restore', [], ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+        if ($isAuthorize) {
+            $request->assertOk();
+        } else {
+            $request->assertForbidden();
+        }
+
+        if ($testCase->forceDeleteCheck) {
+            $isAuthorize = $isActionRoleAuthorize('force');
+            $request = deleteJson($this->value.'/'.$model->id.'?force=1', [], ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+            if ($isAuthorize) {
+                $request->assertOk();
+            } else {
+                $request->assertForbidden();
+            }
+        }
+    }
+
+    if ($testCase->relationship === 'OneToMany') {
+        $isAuthorize = $isActionRoleAuthorize('associate');
+        $request = postJson($this->value.'/associate', ['related_key' => 1], ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+        if ($isAuthorize) {
+            $request->assertOk();
+        } else {
+            $request->assertForbidden();
+        }
+
+        $isAuthorize = $isActionRoleAuthorize('dissociate');
+        $request = deleteJson($this->value.'/1/dissociate', [], ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+        if ($isAuthorize) {
+            $request->assertOk();
+        } else {
+            $request->assertForbidden();
+        }
+    }
+
+    if ($testCase->relationship === 'ManyToMany') {
+        $isAuthorize = $isActionRoleAuthorize('associate');
+        $request = postJson($this->value.'/attach', [[1 => call_user_func($testCase->validSample)]], ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+        if ($isAuthorize) {
+            $request->assertOk();
+        } else {
+            $request->assertForbidden();
+        }
+
+        $isAuthorize = $isActionRoleAuthorize('detach');
+        $request = deleteJson($this->value.'/detach', [1], ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+        if ($isAuthorize) {
+            $request->assertOk();
+        } else {
+            $request->assertForbidden();
+        }
+
+        $isAuthorize = $isActionRoleAuthorize('sync');
+        $request = patchJson($this->value.'/sync', [[1 => call_user_func($testCase->validSample)]], ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+        if ($isAuthorize) {
+            $request->assertOk();
+        } else {
+            $request->assertForbidden();
+        }
+
+        $isAuthorize = $isActionRoleAuthorize('toggle');
+        $request = patchJson($this->value.'/toggle', [1], ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+        if ($isAuthorize) {
+            $request->assertOk();
+        } else {
+            $request->assertForbidden();
+        }
+
+        $isAuthorize = $isActionRoleAuthorize('pivot');
+        $request = patchJson($this->value.'/1/pivot', [call_user_func($testCase->validSample)], ['Authorization' => 'Bearer '.TestCase::$$tokenName]);
+        if ($isAuthorize) {
+            $request->assertOk();
+        } else {
+            $request->assertForbidden();
+        }
+    }
+
+    // }
+});
+
+expect()->extend('indexToHaveExactJsonStructure', function ($testCase) {
+    if (! in_array('index', $testCase->except)) {
+        getJson($this->value, ['Authorization' => 'Bearer '.TestCase::$adminToken])
+            ->assertOK()
+            ->assertExactJsonStructure($testCase->indexStructure);
+    }
+});
+
+expect()->extend('showToHaveExactJsonStructure', function ($testCase) {
+    if (! in_array('show', $testCase->except)) {
+        getJson($this->value.'/1', ['Authorization' => 'Bearer '.TestCase::$adminToken])
+            ->assertOK()
+            ->assertExactJsonStructure($testCase->showStructure);
+    }
+});
+
+expect()->extend('toDelete', function ($testCase) {
+    if (! in_array('destroy', $testCase->except)) {
+        deleteJson($this->value, [], ['Authorization' => 'Bearer '.TestCase::$adminToken])
+            ->assertOK();
+    }
+});
+
+expect()->extend('toStore', function ($testCase) {
+    if (! in_array('store', $testCase->except)) {
+        postJson($this->value, call_user_func($testCase->validSample), ['Authorization' => 'Bearer '.TestCase::$adminToken])
+            ->assertCreated();
+
+        if ($testCase->invalidSample !== null) {
+            postJson($this->value, $testCase->invalidSample, ['Authorization' => 'Bearer '.TestCase::$adminToken])
+                ->assertUnprocessable();
+        }
+    }
+});
+
+expect()->extend('toUpdate', function ($testCase) {
+    if (! in_array('update', $testCase->except)) {
+        putJson($this->value, call_user_func($testCase->validSample), ['Authorization' => 'Bearer '.TestCase::$adminToken])
+            ->assertOK();
+
+        if ($testCase->invalidSample !== null) {
+            putJson($this->value, $testCase->invalidSample, ['Authorization' => 'Bearer '.TestCase::$adminToken])
+                ->assertUnprocessable();
+        }
     }
 });
 

@@ -5,7 +5,6 @@ use App\Models\Major;
 use Illuminate\Support\Str;
 
 use function Pest\Laravel\deleteJson;
-use function Pest\Laravel\postJson;
 
 $pluralName = 'colleges';
 $singularName = Str::singular($pluralName);
@@ -17,8 +16,51 @@ beforeEach(function () {
     $this->authorizedActionsForAll = [...$this->except, 'show', 'index'];
     $this->unauthorizedRoles = ['manager', 'academic', 'representer', 'student'];
     $this->model = College::class;
-    $this->validSample = [
-        'name' => 'a College',
+    $this->authenticateAllExcept = [];
+    $this->softDelete = true;
+    $this->forceDeleteCheck = true;
+    $this->parent = null;
+    $this->relationship = null;
+    $this->authorize = [
+        'index' => [
+            'allow' => ['*'],
+        ],
+        'search' => [
+            'allow' => ['*'],
+
+        ],
+        'show' => [
+            'allow' => ['*'],
+
+        ],
+        'destroy' => [
+            'allow' => ['admin'],
+
+        ],
+        'store' => [
+            'allow' => ['admin'],
+
+        ],
+        'update' => [
+            'allow' => ['admin'],
+
+        ],
+        'restore' => [
+            'allow' => ['admin'],
+
+        ],
+        'force' => [
+            'allow' => ['admin'],
+
+        ],
+    ];
+    $this->validSample = function () {
+        return [
+            'name' => fake()->unique()->word(),
+        ];
+    };
+    $this->invalidSample = [
+        'name' => 'a College 123',
     ];
     $this->indexStructure = [
         'data' => [
@@ -42,58 +84,49 @@ beforeEach(function () {
     ];
 });
 
+it("protect $pluralName endpoints", function () {
+    expect($this->endpoint)->toBeProtectedAgainstUnauthenticated($this);
+});
+
+it("controls access for admin in CRUD operations on $pluralName", function () {
+    expect($this->endpoint)->toBeProtectedAgainstRoles($this, 'admin');
+})->only();
+
+it("controls access for manager in CRUD operations on $pluralName", function () {
+    expect($this->endpoint)->toBeProtectedAgainstRoles($this, 'manager');
+})->only();
+
+it("controls access for academic in CRUD operations on $pluralName", function () {
+    expect($this->endpoint)->toBeProtectedAgainstRoles($this, 'academic');
+})->only();
+
+it("controls access for representer in CRUD operations on $pluralName", function () {
+    expect($this->endpoint)->toBeProtectedAgainstRoles($this, 'representer');
+})->only();
+
+it("controls access for student in CRUD operations on $pluralName", function () {
+    expect($this->endpoint)->toBeProtectedAgainstRoles($this, 'student');
+})->only();
+
 it("can retrieve all $pluralName", function () {
-    if (! in_array('index', $this->except)) {
-        expect($this->endpoint)->indexToHaveExactJsonStructure(
-            $this->model,
-            $this->indexStructure
-        );
-    }
+    expect($this->endpoint)->indexToHaveExactJsonStructure($this);
 });
 
 it("can retrieve single $singularName", function () {
-    if (! in_array('show', $this->except)) {
-        expect($this->endpoint)->showToHaveExactJsonStructure(
-            $this->showStructure
-        );
-    }
+    expect($this->endpoint)->showToHaveExactJsonStructure($this);
 });
 
 it("can delete $singularName", function () {
-    if (! in_array('destroy', $this->except)) {
-        expect($this->endpoint)->toDelete($this->model, College::query()->doesntHave('majors')->first());
-    }
+    $model = $this->model::create($this->validSample);
+    expect($this->endpoint.'/'.$model->id)->toDelete($this);
 });
 
-it("can store $singularName", function ($data) {
-    if (! in_array('store', $this->except)) {
-        expect($this->endpoint)->toStore($data);
-    }
-})->with(Str::camel("valid $pluralName"));
-
-it("can update $singularName", function ($data) {
-    if (! in_array('update', $this->except)) {
-        expect($this->endpoint)->toUpdate($this->model, $data);
-    }
-})->with(Str::camel("update $pluralName"));
-
-it("can't store invalid $singularName", function ($data) {
-    if (! in_array('store', $this->except)) {
-        postJson($this->endpoint, $data, ['Authorization' => 'Bearer '.$this::$adminToken])
-            ->assertUnprocessable();
-    }
-})->with(Str::camel("invalid $pluralName"));
-
-it("can't operate on unexisting $singularName", function () {
-    expect($this->endpoint)->toNotOperateOnUnexistingResources($this->validSample, $this->except);
+it("can store $singularName", function () {
+    expect($this->endpoint)->toStore($this);
 });
 
-it("protect $pluralName endpoints", function () {
-    expect($this->endpoint)->toBeProtectedAgainstUnauthenticated($this->except);
-});
-
-it("prevents some roles from performing CRUD operations on $pluralName", function () {
-    expect($this->endpoint)->toBeProtectedAgainstRoles($this->validSample, $this->unauthorizedRoles, $this->authorizedActionsForAll);
+it("can update $singularName", function () {
+    expect($this->endpoint.'/1')->toUpdate($this);
 });
 
 it("can't force delete college that have majors", function () {

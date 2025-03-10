@@ -18,7 +18,7 @@ class MajorController extends Controller
     protected $policy = MajorPolicy::class;
 
     protected $request = MajorRequest::class;
-    
+
     public function beforeDestroy(Request $request, $major)
     {
         $major->beforeDestroy($request, $major);
