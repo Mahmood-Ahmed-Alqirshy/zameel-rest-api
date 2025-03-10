@@ -22,26 +22,28 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
 
-        $exceptions->render(function (Throwable $exception, Request $request) {
-            $uuid = Str::uuid()->toString();
-            $className = get_class($exception);
-            $handlers = Handler::$handlers;
+        if (! app()->environment(['local'])) {
+            $exceptions->render(function (Throwable $exception, Request $request) {
+                $uuid = Str::uuid()->toString();
+                $className = get_class($exception);
+                $handlers = Handler::$handlers;
 
-            Log::error($exception->getMessage(), [
-                'id' => $uuid,
-                'message' => $exception->getMessage(),
-                'file' => $exception->getFile(),
-                'line' => $exception->getLine(),
-                'trace' => $exception->getTraceAsString(),
-            ]);
+                Log::error($exception->getMessage(), [
+                    'id' => $uuid,
+                    'message' => $exception->getMessage(),
+                    'file' => $exception->getFile(),
+                    'line' => $exception->getLine(),
+                    'trace' => $exception->getTraceAsString(),
+                ]);
 
-            if (array_key_exists($className, $handlers)) {
-                $method = $handlers[$className];
+                if (array_key_exists($className, $handlers)) {
+                    $method = $handlers[$className];
 
-                return Handler::$method($exception, $request, $uuid);
-            }
+                    return Handler::$method($exception, $request, $uuid);
+                }
 
-            return Handler::handleGenericException($exception, $request, $uuid);
-        });
+                return Handler::handleGenericException($exception, $request, $uuid);
+            });
+        }
 
     })->create();
