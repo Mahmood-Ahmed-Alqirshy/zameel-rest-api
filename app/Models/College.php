@@ -31,7 +31,7 @@ class College extends Model
     public function beforeDestroy(Request $request, $college)
     {
         $date = $request->validate(['force' => 'sometimes|boolean']);
-        $isForceDelete = in_array(($date['force'] ?? 'false'), ['1', 1, 'true', true]);
+        $isForceDelete = in_array(($date['force'] ?? 'false'), ['1', 1, 'true', true], true);
         if ($isForceDelete && $college->majors()->exists()) {
             throw new UnprocessableEntityHttpException('Cannot delete college with majors');
         }

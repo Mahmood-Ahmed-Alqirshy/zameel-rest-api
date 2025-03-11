@@ -117,7 +117,7 @@ it("can retrieve single $singularName", function () {
 });
 
 it("can delete $singularName", function () {
-    $model = $this->model::create($this->validSample);
+    $model = $this->model::create(call_user_func($this->validSample));
     expect($this->endpoint.'/'.$model->id)->toDelete($this);
 });
 
@@ -144,10 +144,11 @@ it("can't force delete college that have majors", function () {
 it('can soft delete college that have majors', function () {
     $college = College::find(2);
     Major::factory()->create(['college_id' => $college->id]);
-
-    deleteJson('/api/colleges/1', [], ['Authorization' => 'Bearer '.$this::$adminToken])
+    deleteJson('/api/colleges/'.$college->id, [], ['Authorization' => 'Bearer '.$this::$adminToken])
         ->assertOK();
 
+    $college = $this->model::create(call_user_func($this->validSample));
+    Major::factory()->create(['college_id' => $college->id]);
     $major = $college->majors()->first();
     deleteJson('/api/majors/'.$major->id.'/college', [], ['Authorization' => 'Bearer '.$this::$adminToken])
         ->assertOK();

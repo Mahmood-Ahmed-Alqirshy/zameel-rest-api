@@ -10,15 +10,9 @@ it('can login', function ($credentials) {
 
 it('rejects wrong credentials', function ($email, $password) {
     $invalidCredentials = [
-        'data' => [
-            'attributes' => [
-                'email' => $email,
-                'password' => $password,
-            ],
-        ],
-        'meta' => [
-            'deviceName' => 'IPhone 13',
-        ],
+        'email' => $email,
+        'password' => $password,
+        'deviceName' => 'IPhone 13',
     ];
 
     postJson('/api/login', $invalidCredentials)

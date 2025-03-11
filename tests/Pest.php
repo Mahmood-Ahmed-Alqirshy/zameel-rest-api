@@ -40,82 +40,82 @@ expect()->extend('toBeOne', function () {
 });
 
 expect()->extend('toBeProtectedAgainstUnauthenticated', function ($testCase) {
-    if (! in_array('index', $testCase->authenticateAllExcept)) {
+    if (! in_array('index', $testCase->authenticateAllExcept, true)) {
         getJson($this->value)
             ->assertUnauthorized();
     }
 
-    if (! in_array('search', $testCase->authenticateAllExcept)) {
+    if (! in_array('search', $testCase->authenticateAllExcept, true)) {
         patchJson($this->value.'/search')
             ->assertUnauthorized();
     }
 
-    if (! in_array('show', $testCase->authenticateAllExcept)) {
+    if (! in_array('show', $testCase->authenticateAllExcept, true)) {
         getJson($this->value.'/1')
             ->assertUnauthorized();
     }
 
-    if (! in_array('destroy', $testCase->authenticateAllExcept)) {
+    if (! in_array('destroy', $testCase->authenticateAllExcept, true)) {
         deleteJson($this->value.'/1')
             ->assertUnauthorized();
     }
 
-    if (! in_array('store', $testCase->authenticateAllExcept)) {
+    if (! in_array('store', $testCase->authenticateAllExcept, true)) {
         postJson($this->value)
             ->assertUnauthorized();
     }
 
-    if (! in_array('update', $testCase->authenticateAllExcept)) {
+    if (! in_array('update', $testCase->authenticateAllExcept, true)) {
         patchJson($this->value.'/1')
             ->assertUnauthorized();
     }
 
     if ($testCase->softDelete) {
-        if (! in_array('restore', $testCase->authenticateAllExcept)) {
+        if (! in_array('restore', $testCase->authenticateAllExcept, true)) {
             postJson($this->value.'/1/restore')
                 ->assertUnauthorized();
         }
 
-        if (! in_array('force', $testCase->authenticateAllExcept)) {
+        if (! in_array('force', $testCase->authenticateAllExcept, true)) {
             deleteJson($this->value.'/1?force=true')
                 ->assertUnauthorized();
         }
     }
 
     if ($testCase->relationship === 'OneToMany') {
-        if (! in_array('associate', $testCase->authenticateAllExcept)) {
+        if (! in_array('associate', $testCase->authenticateAllExcept, true)) {
             postJson($this->value.'/associate')
                 ->assertUnauthorized();
         }
 
-        if (! in_array('dissociate', $testCase->authenticateAllExcept)) {
+        if (! in_array('dissociate', $testCase->authenticateAllExcept, true)) {
             deleteJson($this->value.'/1/dissociate')
                 ->assertUnauthorized();
         }
     }
 
     if ($testCase->relationship === 'ManyToMany') {
-        if (! in_array('attach', $testCase->authenticateAllExcept)) {
+        if (! in_array('attach', $testCase->authenticateAllExcept, true)) {
             postJson($this->value.'/attach')
                 ->assertUnauthorized();
         }
 
-        if (! in_array('detach', $testCase->authenticateAllExcept)) {
+        if (! in_array('detach', $testCase->authenticateAllExcept, true)) {
             deleteJson($this->value.'/detach')
                 ->assertUnauthorized();
         }
 
-        if (! in_array('sync', $testCase->authenticateAllExcept)) {
+        if (! in_array('sync', $testCase->authenticateAllExcept, true)) {
             patchJson($this->value.'/sync')
                 ->assertUnauthorized();
         }
 
-        if (! in_array('toggle', $testCase->authenticateAllExcept)) {
+        if (! in_array('toggle', $testCase->authenticateAllExcept, true)) {
             patchJson($this->value.'/toggle')
                 ->assertUnauthorized();
         }
 
-        if (! in_array('pivot', $testCase->authenticateAllExcept)) {
+        if (! in_array('pivot', $testCase->authenticateAllExcept, true)) {
             patchJson($this->value.'/1/pivot')
                 ->assertUnauthorized();
         }
@@ -261,7 +261,7 @@ expect()->extend('toBeProtectedAgainstRoles', function ($testCase, $role) {
 });
 
 expect()->extend('indexToHaveExactJsonStructure', function ($testCase) {
-    if (! in_array('index', $testCase->except)) {
+    if (! in_array('index', $testCase->except, true)) {
         getJson($this->value, ['Authorization' => 'Bearer '.TestCase::$adminToken])
             ->assertOK()
             ->assertExactJsonStructure($testCase->indexStructure);
@@ -269,7 +269,7 @@ expect()->extend('indexToHaveExactJsonStructure', function ($testCase) {
 });
 
 expect()->extend('showToHaveExactJsonStructure', function ($testCase) {
-    if (! in_array('show', $testCase->except)) {
+    if (! in_array('show', $testCase->except, true)) {
         getJson($this->value.'/1', ['Authorization' => 'Bearer '.TestCase::$adminToken])
             ->assertOK()
             ->assertExactJsonStructure($testCase->showStructure);
@@ -277,14 +277,14 @@ expect()->extend('showToHaveExactJsonStructure', function ($testCase) {
 });
 
 expect()->extend('toDelete', function ($testCase) {
-    if (! in_array('destroy', $testCase->except)) {
+    if (! in_array('destroy', $testCase->except, true)) {
         deleteJson($this->value, [], ['Authorization' => 'Bearer '.TestCase::$adminToken])
             ->assertOK();
     }
 });
 
 expect()->extend('toStore', function ($testCase) {
-    if (! in_array('store', $testCase->except)) {
+    if (! in_array('store', $testCase->except, true)) {
         postJson($this->value, call_user_func($testCase->validSample), ['Authorization' => 'Bearer '.TestCase::$adminToken])
             ->assertCreated();
 
@@ -296,7 +296,7 @@ expect()->extend('toStore', function ($testCase) {
 });
 
 expect()->extend('toUpdate', function ($testCase) {
-    if (! in_array('update', $testCase->except)) {
+    if (! in_array('update', $testCase->except, true)) {
         putJson($this->value, call_user_func($testCase->validSample), ['Authorization' => 'Bearer '.TestCase::$adminToken])
             ->assertOK();
 

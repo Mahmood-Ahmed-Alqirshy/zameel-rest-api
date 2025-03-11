@@ -3,39 +3,21 @@
 dataset('incompleteCredentials', function () {
     return [
         [[
-            'data' => [
-                'attributes' => [
-                    'email' => 'Mahmoud@gmail.com',
-                ],
-            ],
-            'meta' => [
-                'deviceName' => 'IPhone 13',
-            ],
+
+            'email' => 'Mahmoud@gmail.com',
+            'deviceName' => 'IPhone 13',
         ]],
         [[
-            'data' => [
-                'attributes' => [
-                    'password' => 'password',
-                ],
-            ],
-            'meta' => [
-                'deviceName' => 'IPhone 13',
-            ],
+
+            'password' => 'password',
+            'deviceName' => 'IPhone 13',
         ]],
         [[
-            'data' => [
-                'attributes' => [
-                    'email' => 'Mahmoud@gmail.com',
-                    'password' => 'password',
-                ],
-            ],
-            'meta' => [],
+            'email' => 'Mahmoud@gmail.com',
+            'password' => 'password',
         ]],
         [[
-            'data' => [
-                'attributes' => [],
-            ],
-            'meta' => [],
+
         ]],
     ];
 });

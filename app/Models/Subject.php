@@ -36,7 +36,7 @@ class Subject extends Model
     public function beforeDestroy(Request $request, $subject)
     {
         $data = $request->validate(['force' => 'sometimes|boolean']);
-        $isForceDelete = in_array(($date['force'] ?? 'false'), ['1', 1, 'true', true]);
+        $isForceDelete = in_array(($date['force'] ?? 'false'), ['1', 1, 'true', true], true);
         $isHasAssignments = $subject->assignments()->exists();
         $isHasBooks = $subject->books()->exists();
         if ($isForceDelete && ($isHasAssignments || $isHasBooks)) {
