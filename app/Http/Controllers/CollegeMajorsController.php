@@ -6,7 +6,7 @@ use App\Models\College;
 use Illuminate\Http\Request;
 use Orion\Http\Controllers\RelationController;
 
-class CollegeMajorController extends RelationController
+class CollegeMajorsController extends RelationController
 {
     protected $model = College::class;
 

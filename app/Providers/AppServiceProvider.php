@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Authorization\AuthorizationRole;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -23,8 +22,24 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('administrate', function (User $user) {
-            return $user->role_id === AuthorizationRole::SUPERADMIN->id();
+        Gate::define('admin', function (User $user) {
+            return $user->role_id === User::ADMIN;
+        });
+
+        Gate::define('manager', function (User $user) {
+            return $user->role_id === User::MANAGER;
+        });
+
+        Gate::define('academic', function (User $user) {
+            return $user->role_id === User::ACADEMIC;
+        });
+
+        Gate::define('representer', function (User $user) {
+            return $user->role_id === User::REPRESENTER;
+        });
+
+        Gate::define('student', function (User $user) {
+            return $user->role_id === User::STUDENT;
         });
 
         Password::defaults(function () {

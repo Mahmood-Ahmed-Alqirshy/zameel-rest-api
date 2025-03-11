@@ -2,16 +2,10 @@
 
 namespace App\Http\Requests\Auth;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends BaseRequest
+class LoginRequest extends FormRequest
 {
-    protected $map = [
-        'data.attributes.email' => 'email',
-        'data.attributes.password' => 'password',
-        'meta.deviceName' => 'deviceName',
-    ];
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -20,9 +14,9 @@ class LoginRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'data.attributes.email' => 'required|string|email|max:255',
-            'data.attributes.password' => 'required|string',
-            'meta.deviceName' => 'required|string|max:45',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string',
+            'deviceName' => 'required|string|max:45',
         ];
     }
 }

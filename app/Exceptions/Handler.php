@@ -23,6 +23,7 @@ class Handler
         ModelNotFoundException::class => 'handleNotFoundException',
         NotFoundHttpException::class => 'handleNotFoundException',
         UnprocessableEntityHttpException::class => 'handleUnprocessableEntityHttpException',
+        SendEmailException::class => 'handleBadGatewayException',
     ];
 
     public static function handleGenericException(Throwable $exception, Request $request, $uuid)
@@ -93,6 +94,17 @@ class Handler
             'error' => [
                 'id' => $uuid,
                 'status' => 422,
+                'title' => $exception->getMessage(),
+            ],
+        ], 422);
+    }
+
+    public static function handleBadGatewayException(Throwable $exception, Request $request, $uuid)
+    {
+        return response()->json([
+            'error' => [
+                'id' => $uuid,
+                'status' => 502,
                 'title' => $exception->getMessage(),
             ],
         ], 422);

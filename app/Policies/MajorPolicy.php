@@ -29,7 +29,7 @@ class MajorPolicy
      */
     public function create(User $user): bool
     {
-        return Gate::forUser($user)->check('administrate');
+        return Gate::forUser($user)->check('admin');
     }
 
     /**
@@ -37,7 +37,7 @@ class MajorPolicy
      */
     public function update(User $user, Major $major): bool
     {
-        return Gate::forUser($user)->check('administrate');
+        return Gate::forUser($user)->check('admin');
     }
 
     /**
@@ -45,7 +45,7 @@ class MajorPolicy
      */
     public function delete(User $user, Major $major): bool
     {
-        return Gate::forUser($user)->check('administrate');
+        return Gate::forUser($user)->check('admin');
     }
 
     /**
@@ -53,7 +53,7 @@ class MajorPolicy
      */
     public function restore(User $user, Major $major): bool
     {
-        return Gate::forUser($user)->check('administrate');
+        return Gate::forUser($user)->check('admin');
     }
 
     /**
@@ -61,6 +61,6 @@ class MajorPolicy
      */
     public function forceDelete(User $user, Major $major): bool
     {
-        return Gate::forUser($user)->check('administrate');
+        return Gate::forUser($user)->check('admin');
     }
 }

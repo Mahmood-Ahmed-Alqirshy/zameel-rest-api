@@ -90,23 +90,23 @@ it("protect $pluralName endpoints", function () {
 
 it("controls access for admin in CRUD operations on $pluralName", function () {
     expect($this->endpoint)->toBeProtectedAgainstRoles($this, 'admin');
-})->only();
+});
 
 it("controls access for manager in CRUD operations on $pluralName", function () {
     expect($this->endpoint)->toBeProtectedAgainstRoles($this, 'manager');
-})->only();
+});
 
 it("controls access for academic in CRUD operations on $pluralName", function () {
     expect($this->endpoint)->toBeProtectedAgainstRoles($this, 'academic');
-})->only();
+});
 
 it("controls access for representer in CRUD operations on $pluralName", function () {
     expect($this->endpoint)->toBeProtectedAgainstRoles($this, 'representer');
-})->only();
+});
 
 it("controls access for student in CRUD operations on $pluralName", function () {
     expect($this->endpoint)->toBeProtectedAgainstRoles($this, 'student');
-})->only();
+});
 
 it("can retrieve all $pluralName", function () {
     expect($this->endpoint)->indexToHaveExactJsonStructure($this);
