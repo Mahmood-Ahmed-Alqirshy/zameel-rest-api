@@ -6,9 +6,11 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "ichtrojan/laravel-otp": "*",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "mailersend/laravel-driver": "^2.8",
         "tailflow/laravel-orion": "^2.23"
     },
     "require-dev": {

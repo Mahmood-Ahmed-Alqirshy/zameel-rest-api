@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
@@ -12,7 +13,7 @@ class AuthenticationController extends Controller
 {
     public function login(LoginRequest $request)
     {
-        $data = $request->formattedData();
+        $data = $request->validated();
 
         $user = User::where('email', $data['email'])->first();
         if ($user && Hash::check($data['password'], $user->password)) {
@@ -28,7 +29,7 @@ class AuthenticationController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json(['message' => 'loged out'], 200);
+        return response()->json(['message' => 'logged out'], 200);
     }
 
     public function register(RegisterRequest $request)

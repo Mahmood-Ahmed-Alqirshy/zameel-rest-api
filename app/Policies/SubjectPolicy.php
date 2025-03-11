@@ -29,7 +29,7 @@ class SubjectPolicy
      */
     public function create(User $user): bool
     {
-        return Gate::forUser($user)->check('administrate');
+        return Gate::forUser($user)->check('admin');
     }
 
     /**
@@ -37,7 +37,7 @@ class SubjectPolicy
      */
     public function update(User $user, Subject $subject): bool
     {
-        return Gate::forUser($user)->check('administrate');
+        return Gate::forUser($user)->check('admin');
     }
 
     /**
@@ -45,7 +45,7 @@ class SubjectPolicy
      */
     public function delete(User $user, Subject $subject): bool
     {
-        return Gate::forUser($user)->check('administrate');
+        return Gate::forUser($user)->check('admin');
     }
 
     /**
@@ -53,7 +53,7 @@ class SubjectPolicy
      */
     public function restore(User $user, Subject $subject): bool
     {
-        return Gate::forUser($user)->check('administrate');
+        return Gate::forUser($user)->check('admin');
     }
 
     /**
@@ -61,6 +61,6 @@ class SubjectPolicy
      */
     public function forceDelete(User $user, Subject $subject): bool
     {
-        return Gate::forUser($user)->check('administrate');
+        return Gate::forUser($user)->check('admin');
     }
 }
