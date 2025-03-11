@@ -46,62 +46,42 @@ abstract class TestCase extends BaseTestCase
     public static $studentToken = '';
 
     public $adminCredentials = [
-        'data' => [
-            'attributes' => [
-                'email' => 'admin@example.com',
-                'password' => 'password',
-            ],
-        ],
-        'meta' => [
-            'deviceName' => 'IPhone 13',
-        ],
+
+        'email' => 'admin@example.com',
+        'password' => 'password',
+
+        'deviceName' => 'IPhone 13',
     ];
 
     public $managerCredentials = [
-        'data' => [
-            'attributes' => [
-                'email' => 'manager@example.com',
-                'password' => 'password',
-            ],
-        ],
-        'meta' => [
-            'deviceName' => 'IPhone 13',
-        ],
+
+        'email' => 'manager@example.com',
+        'password' => 'password',
+
+        'deviceName' => 'IPhone 13',
     ];
 
     public $academicCredentials = [
-        'data' => [
-            'attributes' => [
-                'email' => 'academic@example.com',
-                'password' => 'password',
-            ],
-        ],
-        'meta' => [
-            'deviceName' => 'IPhone 13',
-        ],
+
+        'email' => 'academic@example.com',
+        'password' => 'password',
+
+        'deviceName' => 'IPhone 13',
     ];
 
     public $representerCredentials = [
-        'data' => [
-            'attributes' => [
-                'email' => 'representer@example.com',
-                'password' => 'password',
-            ],
-        ],
-        'meta' => [
-            'deviceName' => 'IPhone 13',
-        ],
+
+        'email' => 'representer@example.com',
+        'password' => 'password',
+
+        'deviceName' => 'IPhone 13',
     ];
 
     public $studentCredentials = [
-        'data' => [
-            'attributes' => [
-                'email' => 'student@example.com',
-                'password' => 'password',
-            ],
-        ],
-        'meta' => [
-            'deviceName' => 'IPhone 13',
-        ],
+
+        'email' => 'student@example.com',
+        'password' => 'password',
+
+        'deviceName' => 'IPhone 13',
     ];
 }
