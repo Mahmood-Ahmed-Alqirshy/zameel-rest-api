@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->char('type', 6);
+            $table->char('type', 5);
+            $table->char('ext', 6);
+            $table->string('name', 255);
             $table->text('url');
             $table->foreignId('post_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
         });
     }
 

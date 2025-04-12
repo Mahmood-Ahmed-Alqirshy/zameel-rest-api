@@ -21,35 +21,35 @@ class TestSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
-            'role_id' => 1,
+            'role_id' => User::ADMIN,
         ]);
 
         User::create([
             'name' => 'manager',
             'email' => 'manager@example.com',
             'password' => Hash::make('password'),
-            'role_id' => 2,
+            'role_id' => User::MANAGER,
         ]);
 
         User::create([
             'name' => 'academic',
             'email' => 'academic@example.com',
             'password' => Hash::make('password'),
-            'role_id' => 3,
+            'role_id' => User::ACADEMIC,
         ]);
 
         User::create([
             'name' => 'representer',
             'email' => 'representer@example.com',
             'password' => Hash::make('password'),
-            'role_id' => 4,
+            'role_id' => User::REPRESENTER,
         ]);
 
         User::create([
             'name' => 'student',
             'email' => 'student@example.com',
             'password' => Hash::make('password'),
-            'role_id' => 5,
+            'role_id' => User::STUDENT,
         ]);
 
         College::create([

@@ -12,6 +12,7 @@ use App\Http\Controllers\GroupMajorController;
 use App\Http\Controllers\MajorCollegeController;
 use App\Http\Controllers\MajorController;
 use App\Http\Controllers\MajorGroupsController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\SubjectController;
 use Illuminate\Support\Facades\Route;
 use Orion\Facades\Orion;
@@ -21,6 +22,8 @@ Route::post('/register', [AuthenticationController::class, 'register']);
 Route::post('/logout', [AuthenticationController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
+    Orion::resource('posts', PostController::class)->except(PostController::EXCLUDE_METHODS);
+
     Orion::resource('colleges', CollegeController::class)->withSoftDeletes();
     Orion::hasManyResource('colleges', 'majors', CollegeMajorsController::class)->withSoftDeletes();
 

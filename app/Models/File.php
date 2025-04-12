@@ -10,9 +10,13 @@ class File extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
+        'name',
         'type',
         'url',
+        'ext',
         'post_id',
     ];
 

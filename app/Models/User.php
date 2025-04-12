@@ -58,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Role::class);
     }
 
-    public function group(): belongsToMany
+    public function groups(): belongsToMany
     {
         return $this->belongsToMany(Group::class, 'group_user_members')
             ->using(Member::class);
@@ -78,6 +78,21 @@ class User extends Authenticatable implements MustVerifyEmail
     public function assignments(): BelongsToMany
     {
         return $this->belongsToMany(Assignment::class)->using(Delivery::class);
+    }
+
+    public function teachingGroups(): BelongsToMany
+    {
+        return $this->belongsToMany(Group::class, 'group_subject_user');
+    }
+
+    public function teachingSubjects(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'group_subject_user');
+    }
+
+    public function colleges(): BelongsToMany
+    {
+        return $this->belongsToMany(College::class);
     }
 
     // deprecated
