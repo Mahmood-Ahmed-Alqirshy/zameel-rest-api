@@ -15,10 +15,4 @@ class Status extends Model
     protected $fillable = [
         'name',
     ];
-
-    public function applies(): BelongsToMany
-    {
-        return $this->belongsToMany(Status::class, 'group_user_applies')
-            ->using(Apply::class);
-    }
 }

@@ -21,7 +21,7 @@ class ApplyController extends Controller
 
     protected $pivotFillable = ['note'];
 
-    public const EXCLUDE_METHODS = ['update', 'batchUpdate'];
+    public const EXCLUDE_METHODS = ['update', 'batchUpdate', 'restore', 'batchRestore'];
 
     public function filterableBy(): array
     {

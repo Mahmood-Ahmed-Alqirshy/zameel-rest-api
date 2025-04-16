@@ -13,7 +13,7 @@ class ApplyPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return Gate::forUser($user)->any(['admin', 'representer']);
     }
 
     /**
@@ -21,7 +21,7 @@ class ApplyPolicy
      */
     public function view(User $user, Apply $apply): bool
     {
-        return true;
+        return Gate::forUser($user)->any(['admin', 'representer']);
     }
 
     /**
@@ -29,7 +29,7 @@ class ApplyPolicy
      */
     public function create(User $user): bool
     {
-        return Gate::forUser($user)->check('admin');
+        return Gate::forUser($user)->any(['student', 'representer']);
     }
 
     /**
@@ -37,14 +37,6 @@ class ApplyPolicy
      */
     public function delete(User $user, Apply $apply): bool
     {
-        return Gate::forUser($user)->check('admin');
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Apply $apply): bool
-    {
-        return Gate::forUser($user)->check('admin');
+        return Gate::forUser($user)->any(['admin', 'representer']) || $user->id === $apply->user_id;
     }
 }
