@@ -74,7 +74,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return (Gate::forUser($user)->check('admin') || ($user->id === $post->user_id));
+        return Gate::forUser($user)->check('admin') || ($user->id === $post->user_id);
     }
 
     /**
