@@ -21,11 +21,21 @@ class PostController extends Controller
 
     protected $request = PostRequest::class;
 
-    public const EXCLUDE_METHODS = ['index', 'update', 'batchStore', 'batchUpdate', 'batchDestroy'];
+    public const EXCLUDE_METHODS = ['index', 'update'];
 
     public function alwaysIncludes(): array
     {
         return ['files'];
+    }
+
+    public function exposedScopes() : array
+    {
+        return ['taggable'];
+    }
+
+    public function filterableBy() : array
+    {
+        return ['created_at'];
     }
 
     protected function performFill(Request $request, Model $entity, array $attributes): void
@@ -45,7 +55,7 @@ class PostController extends Controller
         if ($request->attachment['type'] === 'images') {
             for ($i = 0; $i < count($request->attachment['images']); $i++) {
                 $file = $request->file('attachment.images.'.$i);
-                $path = Storage::disk('file_server')->put('posts/images', $file);
+                $path = Storage::put('posts/images', $file);
                 File::create([
                     'type' => 'image',
                     'name' => $file->getClientOriginalName(),
@@ -56,7 +66,7 @@ class PostController extends Controller
             }
         } else { /* file */
             $file = $request->file('attachment.file');
-            $path = Storage::disk('file_server')->put('posts/files', $file);
+            $path = Storage::put('posts/files', $file);
             File::create([
                 'type' => 'file',
                 'name' => $file->getClientOriginalName(),
@@ -67,8 +77,13 @@ class PostController extends Controller
         }
     }
 
-    protected function beforeDestroy(Request $request, Model $entity)
+    protected function beforeDestroy(Request $request, Model $post)
     {
-        $entity->files()->delete();
+
+        $files = $post->files();
+        $files->each(function ($file) {
+            Storage::delete($file->url);
+        });
+        $files->delete();
     }
 }

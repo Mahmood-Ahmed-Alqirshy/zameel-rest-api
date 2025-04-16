@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
@@ -33,5 +34,24 @@ class Post extends Model
     public function publisher(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scopeTaggable($query)
+    {
+        $groups = Auth::user()->groups();
+        $groupsIDs = $groups->pluck('id')->toArray();
+        $majors = $groups->pluck('major_id')->toArray();
+        $colleges = Major::whereIn('id', $majors)->pluck('college_id')->toArray();
+
+        $query->where(function ($query) use ($colleges) {
+            $query->where('taggable_type', 'App\\Models\\College')
+                ->whereIn('taggable_id', $colleges);
+        })->orWhere(function ($query) use ($majors) {
+            $query->where('taggable_type', 'App\\Models\\Major')
+                ->whereIn('taggable_id', $majors);
+        })->orWhere(function ($query) use ($groupsIDs) {
+            $query->where('taggable_type', 'App\\Models\\Group')
+                ->whereIn('taggable_id', $groupsIDs);
+        })->orWhereNull('taggable_type');
     }
 }

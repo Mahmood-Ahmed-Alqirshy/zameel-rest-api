@@ -22,7 +22,7 @@ Route::post('/register', [AuthenticationController::class, 'register']);
 Route::post('/logout', [AuthenticationController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Orion::resource('posts', PostController::class)->except(PostController::EXCLUDE_METHODS);
+    Orion::resource('posts', PostController::class)->except(PostController::EXCLUDE_METHODS)->withoutBatch();
 
     Orion::resource('colleges', CollegeController::class)->withSoftDeletes();
     Orion::hasManyResource('colleges', 'majors', CollegeMajorsController::class)->withSoftDeletes();
