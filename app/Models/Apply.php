@@ -19,6 +19,16 @@ class Apply extends Pivot
         'note',
     ];
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);;
+    }
+
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(Group::class);
+    }
+
     public function status(): BelongsTo
     {
         return $this->belongsTo(Status::class);
