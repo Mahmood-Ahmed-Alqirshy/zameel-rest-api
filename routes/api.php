@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplyController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -35,6 +36,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Orion::resource('groups', GroupController::class)->except(GroupController::EXCLUDE_METHODS);
     Orion::belongsToResource('groups', 'major', GroupMajorController::class)->withSoftDeletes();
+
+    Orion::resource('applies', ApplyController::class)->except(ApplyController::EXCLUDE_METHODS);
 
     Route::post('verify-email', VerifyEmailController::class)
         ->middleware(['throttle:6,1'])
