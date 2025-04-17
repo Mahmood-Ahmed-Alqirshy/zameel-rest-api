@@ -13,13 +13,12 @@ class BookRequest extends Request
     {
         return [
             'name' => 'required|string|max:255',
-            'path' => 'required|file',
-            File::types($this->fileTypes)->max(50 * 1024),
+            'path' => ['required', 'file', File::types($this->fileTypes)->max(50 * 1024)],
             'subject_id' => 'required|integer|numeric|exists:subjects,id',
-            'group_id' => 'sometimes|integer|numeric|exists:subjects,id',
+            'group_id' => 'sometimes|integer|numeric|exists:groups,id',
             'is_practical' => 'required|boolean',
-            'year' => 'required|digits:1|min:1|max:10',
-            'semester' => 'required|digits:1|min:1|max:2',
+            'year' => 'required|min:1|max:10',
+            'semester' => 'required|min:1|max:2',
         ];
     }
 
@@ -28,10 +27,10 @@ class BookRequest extends Request
         return [
             'name' => 'sometimes|string|max:255',
             'subject_id' => 'sometimes|integer|numeric|exists:subjects,id',
-            'group_id' => 'sometimes|integer|numeric|exists:subjects,id',
+            'group_id' => 'sometimes|integer|numeric|exists:groups,id',
             'is_practical' => 'sometimes|boolean',
-            'year' => 'sometimes|digits:1|min:1|max:10',
-            'semester' => 'sometimes|digits:1|min:1|max:2',
+            'year' => 'sometimes|min:1|max:10',
+            'semester' => 'sometimes|min:1|max:2',
         ];
     }
 }

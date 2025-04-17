@@ -29,11 +29,7 @@ class BookPolicy
      */
     public function create(User $user): bool
     {
-        if (Gate::forUser($user)->check('student')) {
-            return false;
-        }
-
-        return true;
+        return !Gate::forUser($user)->check('student');
     }
 
     /**
@@ -41,7 +37,7 @@ class BookPolicy
      */
     public function update(User $user, Book $book): bool
     {
-        return Gate::forUser($user)->check('admin');
+        return !Gate::forUser($user)->check('student');
     }
 
     /**
@@ -49,10 +45,6 @@ class BookPolicy
      */
     public function delete(User $user, Book $book): bool
     {
-        if (Gate::forUser($user)->check('student')) {
-            return false;
-        }
-
-        return true;
+        return !Gate::forUser($user)->check('student');
     }
 }
