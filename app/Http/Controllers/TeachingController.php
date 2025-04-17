@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ApplyRequest;
-use App\Models\Apply;
-use App\Policies\ApplyPolicy;
+use App\Http\Requests\TeachingRequest;
+use App\Models\Teaching;
+use App\Policies\TeachingPolicy;
 use Orion\Concerns\DisablePagination;
 use Orion\Http\Controllers\Controller;
 
-class ApplyController extends Controller
+class TeachingController extends Controller
 {
     use DisablePagination;
 
-    protected $model = Apply::class;
+    protected $model = Teaching::class;
 
-    protected $policy = ApplyPolicy::class;
+    protected $policy = TeachingPolicy::class;
 
-    protected $request = ApplyRequest::class;
-
-    protected $pivotFillable = ['note'];
+    protected $request = TeachingRequest::class;
 
     public const EXCLUDE_METHODS = ['update'];
 
@@ -27,7 +25,7 @@ class ApplyController extends Controller
         return [
             'user_id',
             'group_id',
-            'status_id',
+            'subject_id',
             'created_at',
             'updated_at',
         ];

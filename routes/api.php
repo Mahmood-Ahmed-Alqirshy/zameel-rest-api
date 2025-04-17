@@ -15,6 +15,7 @@ use App\Http\Controllers\MajorController;
 use App\Http\Controllers\MajorGroupsController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TeachingController;
 use Illuminate\Support\Facades\Route;
 use Orion\Facades\Orion;
 
@@ -37,7 +38,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Orion::resource('groups', GroupController::class)->except(GroupController::EXCLUDE_METHODS);
     Orion::belongsToResource('groups', 'major', GroupMajorController::class)->withSoftDeletes();
 
-    Orion::resource('applies', ApplyController::class)->except(ApplyController::EXCLUDE_METHODS);
+    Orion::resource('applies', ApplyController::class)->except(ApplyController::EXCLUDE_METHODS)->withoutBatch();
+
+    Orion::resource('teaching', TeachingController::class)->except(TeachingController::EXCLUDE_METHODS)->withoutBatch();
 
     Route::post('verify-email', VerifyEmailController::class)
         ->middleware(['throttle:6,1'])
