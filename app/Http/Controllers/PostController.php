@@ -28,12 +28,12 @@ class PostController extends Controller
         return ['files'];
     }
 
-    public function exposedScopes() : array
+    public function exposedScopes(): array
     {
         return ['taggable'];
     }
 
-    public function filterableBy() : array
+    public function filterableBy(): array
     {
         return ['created_at'];
     }
