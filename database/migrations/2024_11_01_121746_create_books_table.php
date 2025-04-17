@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('path');
-            $table->foreignId('subject_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('subject_id')->constrained();
             $table->foreignId('group_id')->nullable()->constrained()->nullOnDelete();
             $table->boolean('is_practical');
             $table->tinyInteger('year');
