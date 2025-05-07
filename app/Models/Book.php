@@ -42,6 +42,6 @@ class Book extends Model
 
     public function summaries(): HasMany
     {
-        return $this->hasMany(Quiz::class);
+        return $this->hasMany(Summary::class);
     }
 }

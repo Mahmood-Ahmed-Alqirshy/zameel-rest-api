@@ -19,6 +19,7 @@ class BookRequest extends Request
             'is_practical' => 'required|boolean',
             'year' => 'required|min:1|max:10',
             'semester' => 'required|min:1|max:2',
+            'is_arabic' => 'required|boolean',
         ];
     }
 
