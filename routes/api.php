@@ -21,8 +21,6 @@ use App\Http\Controllers\SummaryController;
 use App\Http\Controllers\TeachingController;
 use App\Http\Controllers\UpdatePasswordController;
 use App\Http\Controllers\UserController;
-use App\Models\Quiz;
-use App\Models\Summary;
 use Illuminate\Support\Facades\Route;
 use Orion\Facades\Orion;
 

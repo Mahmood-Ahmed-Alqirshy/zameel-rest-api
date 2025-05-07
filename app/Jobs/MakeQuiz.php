@@ -6,7 +6,6 @@ use App\Models\Book;
 use App\Models\Quiz;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use OpenAI\Laravel\Facades\OpenAI;
 
@@ -17,7 +16,7 @@ class MakeQuiz implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(private Book $book, private string $language = "arabic")
+    public function __construct(private Book $book, private string $language = 'arabic')
     {
         //
     }
@@ -69,8 +68,8 @@ class MakeQuiz implements ShouldQueue
 
             $text
         prompt;
-        $message = $prompt . "\n\n" . $text;
-        $systemMessage = "أنت تطبيق جامعي لمساعدة الطلاب في الدراس و تقوم بعمل اختبارات قصيرة للمواد الدراسية";
+        $message = $prompt."\n\n".$text;
+        $systemMessage = 'أنت تطبيق جامعي لمساعدة الطلاب في الدراس و تقوم بعمل اختبارات قصيرة للمواد الدراسية';
 
         $result = OpenAI::chat()->create([
             'model' => config('openai.summary_model'),
@@ -78,7 +77,7 @@ class MakeQuiz implements ShouldQueue
                 ['role' => 'system', 'content' => $systemMessage],
                 ['role' => 'user', 'content' => $message],
             ],
-            'response_format' => ['type' => 'json_object']
+            'response_format' => ['type' => 'json_object'],
         ]);
 
         Quiz::create([

@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
-use OpenAI\Laravel\Facades\OpenAI;
 use Smalot\PdfParser\Parser;
 
 function CSV($fileName): array
@@ -27,7 +25,7 @@ function CSV($fileName): array
 
 function PDFToText($file): string
 {
-    return (new Parser())->parseFile($file)->getText();
+    return (new Parser)->parseFile($file)->getText();
 }
 
 /**

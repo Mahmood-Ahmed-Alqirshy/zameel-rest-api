@@ -15,10 +15,9 @@ return [
     'api_key' => env('OPENAI_API_KEY'),
     'organization' => env('OPENAI_ORGANIZATION'),
     'assistant_key' => env('OPENAI_ASSISTANT_KEY'),
-    'chat_model' => env('OPENAI_CHAT_MODEL', "gpt-4.1-nano"),
-    'summary_model' => env('OPENAI_SUMMARY_MODEL', "gpt-4.1-nano"),
-    'quiz_model' => env('OPENAI_QUIZ_MODEL', "gpt-4.1-nano"),
-
+    'chat_model' => env('OPENAI_CHAT_MODEL', 'gpt-4.1-nano'),
+    'summary_model' => env('OPENAI_SUMMARY_MODEL', 'gpt-4.1-nano'),
+    'quiz_model' => env('OPENAI_QUIZ_MODEL', 'gpt-4.1-nano'),
 
     /*
     |--------------------------------------------------------------------------

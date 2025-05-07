@@ -10,7 +10,6 @@ use App\Policies\BookPolicy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Orion\Http\Controllers\Controller;
 
