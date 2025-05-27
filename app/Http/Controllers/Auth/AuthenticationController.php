@@ -17,9 +17,10 @@ class AuthenticationController extends Controller
 
         $user = User::where('email', $data['email'])->first();
         if ($user && Hash::check($data['password'], $user->password)) {
-            $token = $user->createToken($data['deviceName'], $user->abilities());
+            $response = $user->toArray();
+            $response['token'] = $user->createToken($data['deviceName'])->plainTextToken;
 
-            return ['token' => $token->plainTextToken];
+            return response()->json(['data' => $response]);
         } else {
             return response()->json(['massage' => 'wrong password or email'], 401);
         }
@@ -35,8 +36,14 @@ class AuthenticationController extends Controller
     public function register(RegisterRequest $request)
     {
         $data = $request->validated();
-        $user = User::create($data);
+        if (User::where('email', $data['email'])->exists()) {
+            return response()->json(['message' => 'User already exists.'], 409);
+        }
 
-        return response()->json(['data' => $user->toArray()]);
+        $user = User::create($data);
+        $response = $user->toArray();
+        $response['token'] = $user->createToken($data['deviceName'])->plainTextToken;
+
+        return response()->json(['data' => $response]);
     }
 }

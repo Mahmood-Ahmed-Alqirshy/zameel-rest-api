@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -44,13 +45,13 @@ class Post extends Model
         $colleges = Major::whereIn('id', $majors)->pluck('college_id')->toArray();
 
         $query->where(function ($query) use ($colleges) {
-            $query->where('taggable_type', 'App\\Models\\College')
+            $query->where('taggable_type', College::class)
                 ->whereIn('taggable_id', $colleges);
         })->orWhere(function ($query) use ($majors) {
-            $query->where('taggable_type', 'App\\Models\\Major')
+            $query->where('taggable_type', Major::class)
                 ->whereIn('taggable_id', $majors);
         })->orWhere(function ($query) use ($groupsIDs) {
-            $query->where('taggable_type', 'App\\Models\\Group')
+            $query->where('taggable_type', Group::class)
                 ->whereIn('taggable_id', $groupsIDs);
         })->orWhereNull('taggable_type');
     }
@@ -63,18 +64,18 @@ class Post extends Model
 
         $query->where(function ($query) use ($colleges, $majors, $groups) {
             $query->where(function ($query) use ($colleges) {
-                $query->where('taggable_type', 'App\\Models\\College')
+                $query->where('taggable_type', College::class)
                     ->whereIn('taggable_id', $colleges);
             });
 
             $query->orWhere(function ($query) use ($majors) {
-                $query->where('taggable_type', 'App\\Models\\Major')
+                $query->where('taggable_type', Major::class)
                     ->whereIn('taggable_id', $majors);
             });
 
             foreach ($groups as $group) {
                 $query->orWhere(function ($query) use ($group) {
-                    $query->where('taggable_type', 'App\\Models\\Group')
+                    $query->where('taggable_type', Group::class)
                         ->where('taggable_id', $group->id)
                         ->where('subject_id', $group->pivot->subject_id);
                 });
@@ -86,6 +87,6 @@ class Post extends Model
 
     public function scopeAdmin($query)
     {
-        $query->whereIn('taggable_type', ['App\\Models\\College', 'App\\Models\\Major'])->orWhereNull('taggable_type');
+        $query->whereIn('taggable_type', [College::class, Major::class])->orWhereNull('taggable_type');
     }
 }

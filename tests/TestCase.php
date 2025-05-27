@@ -20,19 +20,19 @@ abstract class TestCase extends BaseTestCase
     public function makeToken()
     {
         $response = postJson('/api/login', $this->adminCredentials);
-        self::$adminToken = $response->json()['token'];
+        self::$adminToken = $response->json()['data']['token'];
 
         $response = postJson('/api/login', $this->managerCredentials);
-        self::$managerToken = $response->json()['token'];
+        self::$managerToken = $response->json()['data']['token'];
 
         $response = postJson('/api/login', $this->academicCredentials);
-        self::$academicToken = $response->json()['token'];
+        self::$academicToken = $response->json()['data']['token'];
 
         $response = postJson('/api/login', $this->representerCredentials);
-        self::$representerToken = $response->json()['token'];
+        self::$representerToken = $response->json()['data']['token'];
 
         $response = postJson('/api/login', $this->studentCredentials);
-        self::$studentToken = $response->json()['token'];
+        self::$studentToken = $response->json()['data']['token'];
     }
 
     public static $adminToken = '';

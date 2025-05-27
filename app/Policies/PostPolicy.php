@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\Models\College;
+use App\Models\Group;
 use App\Models\Major;
 use App\Models\Post;
 use App\Models\User;
@@ -35,18 +37,18 @@ class PostPolicy
         $taggableId = request()->taggable_id;
         if (Gate::forUser($user)->check('admin')) {
             return true;
-        } elseif ($taggableType === 'App\Models\College') {
+        } elseif ($taggableType === College::class) {
             $isManger = Gate::forUser($user)->check('manager');
             $isMangerOfCollege = $user->colleges()->wherePivot('college_id', $taggableId)->exists();
 
             return $isManger && $isMangerOfCollege;
-        } elseif ($taggableType === 'App\Models\Major') {
+        } elseif ($taggableType === Major::class) {
             $isManger = Gate::forUser($user)->check('manager');
             $majorsCollegeID = Major::find($taggableId)->college->id;
             $isMangerOfMajor = $user->colleges()->wherePivot('college_id', $majorsCollegeID)->exists();
 
             return $isManger && $isMangerOfMajor;
-        } elseif ($taggableType === 'App\Models\Group') {
+        } elseif ($taggableType === Group::class) {
             if (Gate::forUser($user)->check('representer')) {
                 return $user->groups()->wherePivot('group_id', $taggableId)->wherePivot('is_representer', true)->exists();
             }

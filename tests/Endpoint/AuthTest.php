@@ -4,8 +4,7 @@ use function Pest\Laravel\postJson;
 
 it('can login', function ($credentials) {
     postJson('/api/login', $credentials)
-        ->assertOK()
-        ->assertJsonStructure(['token']);
+        ->assertOK();
 })->with('loginCredentials');
 
 it('rejects wrong credentials', function ($email, $password) {

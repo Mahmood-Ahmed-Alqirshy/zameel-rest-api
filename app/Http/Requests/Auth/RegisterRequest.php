@@ -24,8 +24,9 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required|string|regex:/^[\p{L}\p{M}\s]+$/u|max:255',
-            'email' => 'required|string|max:255|email|unique:users,email',
+            'email' => 'required|string|max:255|email',
             'password' => ['required', 'confirmed', Password::defaults()],
+            'deviceName' => 'required|string|max:45',
         ];
     }
 }

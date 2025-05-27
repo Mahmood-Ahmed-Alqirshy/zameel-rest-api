@@ -55,6 +55,6 @@ class PasswordResetMail extends Mailable
 
     public static function passwordResetURL($token)
     {
-        return config('app.frontend_url').'?token='.$token;
+        return config('app.frontend_url').'reset-password?token='.$token;
     }
 }

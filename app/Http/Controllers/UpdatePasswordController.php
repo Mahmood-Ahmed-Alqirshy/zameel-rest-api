@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
@@ -12,13 +12,14 @@ class UpdatePasswordController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request, User $user)
+    public function __invoke(Request $request)
     {
         $data = $request->validate([
-            'password' => 'current_password:sanctum',
-            'newPassword' => ['required', 'confirmed', Password::defaults()],
+            'password' => 'string|current_password:sanctum',
+            'newPassword' => ['required', 'string', 'confirmed', Password::defaults()],
         ]);
 
+        $user = Auth::user();
         $user->password = Hash::make($data['newPassword']);
         $user->save();
 

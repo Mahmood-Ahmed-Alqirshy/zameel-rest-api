@@ -6,22 +6,86 @@ use App\Http\Requests\PostRequest;
 use App\Models\File;
 use App\Models\Post;
 use App\Policies\PostPolicy;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Orion\Concerns\DisablePagination;
 use Orion\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
+    use DisablePagination;
+
     protected $model = Post::class;
 
     protected $policy = PostPolicy::class;
 
     protected $request = PostRequest::class;
 
-    public const EXCLUDE_METHODS = ['index', 'update', 'restore'];
+    public const EXCLUDE_METHODS = ['update', 'restore'];
+
+    protected function buildIndexFetchQuery(Request $request, array $requestedRelations): Builder
+    {
+        $query = parent::buildIndexFetchQuery($request, $requestedRelations);
+
+        $user = Auth::user();
+
+        if (Gate::forUser($user)->check('admin')) {
+            $query->admin();
+        } elseif (Gate::forUser($user)->any(['manager', 'academic'])) {
+            $query->academic();
+        } else {
+            $query->student();
+        }
+
+        $pass = Validator::make(
+            [
+                'cursor' => $request->query('cursor', Carbon::now()),
+                'before' => $request->query('before', 'false'),
+            ],
+            [
+                'cursor' => ['sometimes', Rule::date()->format('Y-m-d H:i:s')],
+                'before' => ['sometimes', Rule::in(['true', 'false'])],
+            ]
+        )->passes();
+
+        $operator = $request->query('before', 'false') === 'true' ? '<' : '>';
+        $time = $pass ? $request->query('cursor', Carbon::now()) : Carbon::now();
+        $query->where('created_at', $operator, $time)->latest()->take(12);
+
+        return $query;
+    }
+
+    public function deleted(Request $request)
+    {
+
+        $query = Post::onlyTrashed();
+        $user = Auth::user();
+
+        if (Gate::forUser($user)->check('admin')) {
+            $query->admin();
+        } elseif (Gate::forUser($user)->any(['manager', 'academic'])) {
+            $query->academic();
+        } else {
+            $query->student();
+        }
+
+        $pass = Validator::make(
+            ['cursor' => $request->query('cursor', Carbon::now())],
+            ['cursor' => ['sometimes', Rule::date()->format('Y-m-d H:i:s')]]
+        )->passes();
+        $time = $pass ? $request->query('cursor', Carbon::now()) : Carbon::now();
+        $query->where('deleted_at', '>', $time)->latest()->take(12);
+
+        return response()->json(['data' => $query->get()]);
+    }
 
     public function alwaysIncludes(): array
     {

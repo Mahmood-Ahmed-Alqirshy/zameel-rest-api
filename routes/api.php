@@ -21,6 +21,7 @@ use App\Http\Controllers\SummaryController;
 use App\Http\Controllers\TeachingController;
 use App\Http\Controllers\UpdatePasswordController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Orion\Facades\Orion;
 
@@ -34,10 +35,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/users/{user}/roles/{role}', PromotionController::class);
 
-        Route::post('/users/{user}/update-password', UpdatePasswordController::class);
+        Route::post('/users/update-password', UpdatePasswordController::class);
 
         Orion::resource('users', UserController::class)->except(UserController::EXCLUDE_METHODS)->withoutBatch();
 
+        Route::get('/users/me', function () {
+            return response()->json(Auth::user());
+        });
+
+        Route::get('/posts/deleted', [PostController::class, 'deleted']);
         Orion::resource('posts', PostController::class)->except(PostController::EXCLUDE_METHODS)->withoutBatch();
 
         Orion::resource('colleges', CollegeController::class)->withSoftDeletes()->withoutBatch();
@@ -54,25 +60,27 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Orion::resource('teaching', TeachingController::class)->except(TeachingController::EXCLUDE_METHODS);
 
+        Route::get('/books/deleted', [BookController::class, 'deleted']);
         Route::get('/books/{book}/summary', SummaryController::class);
         Route::get('/books/{book}/quiz', QuizController::class);
         Orion::resource('books', BookController::class)->withoutBatch();
 
+        Route::get('/assignments/deleted', [AssignmentController::class, 'deleted']);
         Orion::resource('assignments', AssignmentController::class)->withoutBatch();
 
         Orion::resource('deliveries', DeliveryController::class)->except(DeliveryController::EXCLUDE_METHODS)->withoutBatch();
     });
 
     Route::post('verify-email', VerifyEmailController::class)
-        ->middleware(['throttle:6,1'])
         ->name('verification.verify');
 
     Route::post('email/verification-notification', EmailVerificationNotificationController::class)
-        ->middleware('throttle:6,1')
+        ->middleware(['throttle:1,1'])
         ->name('verification.send');
 });
 
 Route::post('forgot-password', PasswordResetLinkController::class)
+    ->middleware(['throttle:1,1'])
     ->name('password.email');
 
 Route::post('reset-password', NewPasswordController::class)

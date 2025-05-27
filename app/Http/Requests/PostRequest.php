@@ -2,13 +2,16 @@
 
 namespace App\Http\Requests;
 
+use App\Models\College;
+use App\Models\Group;
+use App\Models\Major;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
 use Orion\Http\Requests\Request;
 
 class PostRequest extends Request
 {
-    private $models = ['App\Models\College', 'App\Models\Major', 'App\Models\Group'];
+    private $models = [College::class, Major::class, Group::class];
 
     private $fileTypes = ['pdf', 'zip', 'rar', 'docx', 'pptx', 'ppt', 'psd', 'mpp', 'ai', 'm', 'mat', 'ino', 'h'];
 

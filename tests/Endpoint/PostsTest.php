@@ -29,13 +29,13 @@ it('can add post to college and major', function () {
     User::find(User::MANAGER)->colleges()->attach($college->id);
 
     $dataForCollege = [
-        'taggable_type' => 'App\Models\College',
+        'taggable_type' => College::class,
         'taggable_id' => $college->id,
         'content' => 'hi',
     ];
 
     $dataForMajor = [
-        'taggable_type' => 'App\Models\Major',
+        'taggable_type' => Major::class,
         'taggable_id' => $major->id,
         'content' => 'hi',
     ];
@@ -55,13 +55,13 @@ it('can add post to group', function () {
     User::find(User::MANAGER)->teachingGroups()->attach($group->id, ['subject_id' => $subject->id]);
 
     $data = [
-        'taggable_type' => 'App\Models\Group',
+        'taggable_type' => Group::class,
         'taggable_id' => $group->id,
         'content' => 'hi',
     ];
 
     $dataForTeachers = [
-        'taggable_type' => 'App\Models\Group',
+        'taggable_type' => Group::class,
         'taggable_id' => $group->id,
         'content' => 'hi',
         'subject_id' => $subject->id,
@@ -77,7 +77,7 @@ it('can add post to group', function () {
 
 it('can\'t add post to unexisted group', function () {
     $data = [
-        'taggable_type' => 'App\\Models\\Group',
+        'taggable_type' => Group::class,
         'taggable_id' => 9999,
         'content' => 'hi',
     ];
