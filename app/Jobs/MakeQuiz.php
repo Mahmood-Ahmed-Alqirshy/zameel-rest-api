@@ -16,10 +16,7 @@ class MakeQuiz implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(private Book $book, private string $language = 'arabic')
-    {
-        //
-    }
+    public function __construct(private Book $book, private string $language = 'arabic') {}
 
     /**
      * Execute the job.

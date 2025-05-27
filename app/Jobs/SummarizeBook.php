@@ -16,10 +16,7 @@ class SummarizeBook implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(private Book $book, private string $language = 'العربية')
-    {
-        //
-    }
+    public function __construct(private Book $book, private string $language = 'العربية') {}
 
     /**
      * Execute the job.

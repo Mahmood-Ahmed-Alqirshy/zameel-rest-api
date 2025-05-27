@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApplyController;
 use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\AssistantChatController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -22,12 +23,15 @@ use App\Http\Controllers\TeachingController;
 use App\Http\Controllers\UpdatePasswordController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 use Orion\Facades\Orion;
 
 Route::post('/login', [AuthenticationController::class, 'login']);
 Route::post('/register', [AuthenticationController::class, 'register']);
 Route::post('/logout', [AuthenticationController::class, 'logout'])->middleware('auth:sanctum');
+
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -69,6 +73,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Orion::resource('assignments', AssignmentController::class)->withoutBatch();
 
         Orion::resource('deliveries', DeliveryController::class)->except(DeliveryController::EXCLUDE_METHODS)->withoutBatch();
+
+        Route::post('/chat/create', [AssistantChatController::class, 'store']);
+
+        Route::post('/chat/{chat}', [AssistantChatController::class, 'update']);
     });
 
     Route::post('verify-email', VerifyEmailController::class)
