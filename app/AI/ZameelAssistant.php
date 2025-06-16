@@ -19,13 +19,14 @@ class ZameelAssistant
         //
     }
 
-    public function getSystemPrompt($user)
+    public function getSystemPrompt($user, array $booksID)
     {
         $name = $user['name'];
 
-        $major = $user->groups()->exists() ? Group::find($user->groups()->get()[0]->id)->major()->get()[0]->name : 'no major';
+        $major = $user->groups()->exists() ? Group::find($user->groups()->first()->id)->major()->first()->name : 'no major';
 
-        $assignments = Assignment::whereIn('group_id', $user->groups()->get()->pluck('id')->toArray())->get()->toJson(JSON_PRETTY_PRINT);
+        $groupsID = $user->groups()->get()->pluck('id')->toArray();
+        $assignments = Assignment::whereIn('group_id', $groupsID)->where('due_date', '>', now())->get()->toJson(JSON_PRETTY_PRINT);
 
         $posts = null;
         if (Gate::forUser($user)->check('admin')) {
@@ -35,9 +36,9 @@ class ZameelAssistant
         } else {
             $posts = Post::student($user);
         }
-        $posts = $posts->get()->toJson(JSON_PRETTY_PRINT);
+        $posts = $posts->latest()->take(16)->get()->toJson(JSON_PRETTY_PRINT);
 
-        $books = Book::whereIn('group_id', $user->groups()->get()->pluck('id')->toArray())->get();
+        $books = Book::whereIn('id', $booksID)->get();
         $books->each(function ($book) {
             $book['content'] = PDFToText(Storage::url($book['path']));
             unset($book['path']);

@@ -12,7 +12,11 @@ class AssistantChatController extends Controller
 {
     public function store(Request $request)
     {
-        $chat = AssistantChat::create();
+        $data = $request->validate([
+            'books' => 'sometimes|array',
+            'books.*' => 'integer|numeric|exists:books,id',
+        ]);
+        $chat = AssistantChat::create(['books' => $data['books']]);
 
         return response()->json(['data' => ['id' => $chat->id]]);
     }

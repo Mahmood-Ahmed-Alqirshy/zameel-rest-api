@@ -16,7 +16,7 @@ class AssistantResponded implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(private AssistantChat $chat, public string $message)
+    public function __construct(private AssistantChat $chat, public string $id, public int $sequence, public string $message)
     {
         //
     }

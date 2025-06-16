@@ -8,6 +8,7 @@ use App\Models\AssistantChat;
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Str;
 use OpenAI\Laravel\Facades\OpenAI;
 
 class SendMessageToAI implements ShouldQueue
@@ -28,7 +29,7 @@ class SendMessageToAI implements ShouldQueue
 
         $messageToSend = [];
         if (is_null($this->chat->messages)) {
-            $systemMessage = (new ZameelAssistant)->getSystemPrompt($this->user);
+            $systemMessage = (new ZameelAssistant)->getSystemPrompt($this->user, $this->chat->books ?? []);
             $messageToSend = array_merge($messageToSend, [['role' => 'system', 'content' => $systemMessage]]);
         }
 
@@ -44,6 +45,11 @@ class SendMessageToAI implements ShouldQueue
         $this->chat->messages = $messages;
         $this->chat->save();
 
-        AssistantResponded::dispatch($this->chat, $result->choices[0]->message->content);
+        $chunks = Str::of($result->choices[0]->message->content)->matchAll('/.{1,1024}/us')->toArray();
+        $uuid = Str::uuid()->toString();
+        for ($i = 0; $i < count($chunks); $i++) {
+            AssistantResponded::dispatch($this->chat, $uuid, $i, $chunks[$i]);
+
+        }
     }
 }

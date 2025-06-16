@@ -11,9 +11,11 @@ class AssistantChat extends Model
 
     protected $fillable = [
         'messages',
+        'books',
     ];
 
     protected $casts = [
         'messages' => 'array',
+        'books' => 'array',
     ];
 }
